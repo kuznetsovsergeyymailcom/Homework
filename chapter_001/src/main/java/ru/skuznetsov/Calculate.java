@@ -2,8 +2,8 @@ package ru.skuznetsov;
 
 public class Calculate{
 /**
-* Вывод Hello world
-* @param args не используется в коде
+* Output Hello world string
+* @param args not using on code
 */
   public static void main(String[] args){
 
