@@ -8,7 +8,7 @@ import org.junit.Test;
 public class CalculatorTest {
 
     @Test
-    public void FirstAddSecondCheckResult() {
+    public void firstAddSecondCheckResult() {
 	Calculator calc = new Calculator();
 	calc.add(12.00, 34.00);
 	double result = calc.getResult();
@@ -16,7 +16,7 @@ public class CalculatorTest {
     }
 
     @Test
-    public void FirstSubstractSecondCheckResult() {
+    public void firstSubstractSecondCheckResult() {
 	Calculator calc = new Calculator();
 	calc.substruct(12.00, 34.00);
 	double result = calc.getResult();
@@ -24,7 +24,7 @@ public class CalculatorTest {
     }
 
     @Test
-    public void FirstDivideSecondCheckResult() {
+    public void firstDivideSecondCheckResult() {
 	Calculator calc = new Calculator();
 	calc.div(56.00, 8.00);
 	double result = calc.getResult();
@@ -32,7 +32,7 @@ public class CalculatorTest {
     }
 
     @Test
-    public void FirstMultiplySecondCheckResult() {
+    public void firstMultiplySecondCheckResult() {
 	Calculator calc = new Calculator();
 	calc.multiple(12.00, 3.00);
 	double result = calc.getResult();
@@ -43,7 +43,7 @@ public class CalculatorTest {
      * Check throw illegal argumtn exception (dividing by zero)
      */
     @Test(expected = IllegalArgumentException.class)
-    public void FirstDivideSecondCheckResultExpectError() {
+    public void firstDivideSecondCheckResultExpectError() {
 	Calculator calc = new Calculator();
 	calc.div(56.00, 0.00);
 	double result = calc.getResult();
