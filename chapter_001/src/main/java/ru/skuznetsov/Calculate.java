@@ -9,9 +9,15 @@
 */
 
 package ru.skuznetsov;
-
+/**
+* Class for output string
+* 
+*/
 public class Calculate {
 
+/**
+* Main method
+*/
   public static void main(String[] args) {
 
     System.out.println("Hello World");
