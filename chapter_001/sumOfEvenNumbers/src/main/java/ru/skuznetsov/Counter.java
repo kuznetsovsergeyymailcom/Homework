@@ -1,31 +1,37 @@
 package ru.skuznetsov;
-
-
+/**
+* Class som info about class.
+*/
 public class Counter {
-    public int add(int start, int finish){
+	/**
+	* Method calculates the sum of even numbers in ramge.
+	* @param start - first number on range
+	* @param finish - last number on range
+	* @return sum of numbers in range.
+	*/
+    public int add(int start, int finish) {
 
       int counter = 0;
-        if(start<finish){
+        if (start < finish) {
 
-            for(int i=start;i<finish;i++){
-                if(i%2==0) counter+=i;
+            for (int i = start; i < finish; i++) {
+                if (i % 2 == 0) {
+					counter += i;
+				}
             }
 
          return counter;
-/**
-* If start number grater than finish number
-*/
-        }else if(start>finish){
+        } else if (start > finish) {
 
-            for(int i=finish;i<start;i++){
-                if(i%2==0) counter+=i;
+            for (int i = finish; i < start; i++) {
+                if (i % 2 == 0) {
+					counter += i;
+				}
             }
-
          return counter;
-        }else{
-         
-	 return 0;
+
+        } else {
+         return 0;
         }
-
     }
 }

@@ -2,15 +2,22 @@ package ru.skuznetsov;
 
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
-
+/**
+* Class contains tests for comparing process.
+*/
 public class MaxTest {
-
+	/**
+	* Test method compare 2 numbers and find larger.
+	*/
     @Test
-    public void getMaxNumberFromTwoNumbers(){
-        Max max = new Max();
-        int largerNumber = max.max(3,5);
+    public void getMaxNumberFromTwoNumbers() {
+		final int num1 = 3;
+		final int num2 = 5;
+		final int expected = 5;
 
-        assertEquals(5,largerNumber);
+        Max max = new Max();
+        int largerNumber = max.max(num1, num2);
+
+        assertEquals(expected, largerNumber);
     }
-    
 }
