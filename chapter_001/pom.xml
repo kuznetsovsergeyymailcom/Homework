@@ -18,6 +18,7 @@
        <module>maximumFromTwoNumbers</module>
        <module>sumOfEvenNumbers</module>
        <module>factorial</module>
+	   <module>piramida</module>
     </modules>
 
 <dependencies>       
