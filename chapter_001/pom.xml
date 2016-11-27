@@ -20,6 +20,7 @@
        <module>factorial</module>
 	   <module>piramida</module>
         <module>expandArray</module>
+        <module>bubbleSort</module>
     </modules>
 
 <dependencies>       
