@@ -8,10 +8,6 @@
 *.war
 *.ear
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-*/target/**
-
 #resources
 resources/
 
@@ -20,3 +16,41 @@ resources/
 .metadata/
 *.iml
 RemoteSystemsTempFiles/
+
+# Eclipse project files
+.settings
+.externalToolBuilders
+.classpath
+.project
+
+# m2e-code-quality Eclipse IDE plugin temporary configuration files for Eclipse CS Checkstyle / PMD / FindBugs Plug-Ins
+.checkstyle
+.pmd
+.pmdruleset.xml
+.fbExcludeFilterFile
+ 
+# NetBeans project files
+nbactions.xml
+nb-configuration.xml
+
+# Maven build folder
+target
+bin
+
+# IDEA project files
+checkstyle.iml
+.idea
+
+# Temp files
+*~
+
+# Java Virtual machine crash logs
+hs_err_pid*
+replay_pid*
+
+# Apple MAC OSX hidden file
+.DS_Store
+
+# NonDex files
+.nondex
+.nondex/*

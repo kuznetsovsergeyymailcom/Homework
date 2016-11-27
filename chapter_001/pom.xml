@@ -19,6 +19,7 @@
        <module>sumOfEvenNumbers</module>
        <module>factorial</module>
 	   <module>piramida</module>
+        <module>expandArray</module>
     </modules>
 
 <dependencies>       
