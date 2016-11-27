@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="1" failures="0" name="ru.skuznetsov.CounterTest" time="0.016" errors="0" skipped="0">
+<testsuite tests="2" failures="0" name="ru.skuznetsov.CounterTest" time="0.368" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_101\jre\bin"/>
@@ -27,6 +27,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="user.variant" value=""/>
     <property name="os.name" value="Windows 8.1"/>
+    <property name="net.sourceforge.cobertura.datafile" value="C:\TrackStudio\Homework\chapter_001\sumOfEvenNumbers\target\cobertura\cobertura.ser"/>
     <property name="classworlds.conf" value="C:\ExternalTools\apache-maven-3.3.9-bin\apache-maven-3.3.9\bin\..\bin\m2.conf"/>
     <property name="sun.jnu.encoding" value="Cp1251"/>
     <property name="java.library.path" value="C:\Program Files\Java\jdk1.8.0_101\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\OpenCL SDK\2.0\bin\x86;C:\Program Files (x86)\Intel\OpenCL SDK\2.0\bin\x64;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Sony\VAIO Improvement\;C:\Program Files (x86)\Sony\VAIO Startup Setting Tool;C:\Program Files (x86)\Brackets\command;C:\Program Files\Java\jdk1.8.0_101\bin;C:\ExternalTools\sqlite-tools-win32-x86;C:\Program Files\MySQL\MySQL Utilities 1.6\;C:\Program Files\MySQL\MySQL Server 5.7\bin;C:\ExternalTools\apache-maven-3.3.9-bin\apache-maven-3.3.9\bin;C:\Program Files (x86)\Skype\Phone\;C:\Program Files\Git\cmd;C:\Program Files\Git\cmd;."/>
@@ -44,7 +45,7 @@
     <property name="java.vm.specification.version" value="1.8"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.home" value="C:\Program Files\Java\jdk1.8.0_101\jre"/>
-    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher test"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher verify"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
     <property name="user.language" value="ru"/>
     <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
@@ -59,8 +60,11 @@
     <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="project.build.outputDirectory" value="C:\TrackStudio\Homework\chapter_001\sumOfEvenNumbers\target\generated-classes\cobertura"/>
+    <property name="sun.stdout.encoding" value="cp866"/>
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="ru.skuznetsov.CounterTest" name="calculateEvenNumbersOnRange" time="0.016"/>
+  <testcase classname="ru.skuznetsov.CounterTest" name="ifNum1GraterThanNum2" time="0.367"/>
+  <testcase classname="ru.skuznetsov.CounterTest" name="ifNum2GraterThanNum1" time="0.001"/>
 </testsuite>

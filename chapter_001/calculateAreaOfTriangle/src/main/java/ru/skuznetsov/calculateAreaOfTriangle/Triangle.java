@@ -2,7 +2,7 @@ package ru.skuznetsov.calculateAreaOfTriangle;
 /**
 * Some comment.
 */
-public class Triangle {
+class Triangle {
 	/**
 	* Point a.
 	*/
@@ -21,7 +21,7 @@ public class Triangle {
 	* @param b - point b
 	* @param c - point c
 	*/
-    public Triangle(Point a, Point b, Point c) {
+    Triangle(Point a, Point b, Point c) {
         this.a = a;
         this.b = b;
         this.c = c;
@@ -30,18 +30,22 @@ public class Triangle {
 * Method calculates area of triangle.
 * @return calculated area
 */
-    public double area() {
-        double area = Math.abs((a.getX() * (b.getY() - c.getY()) + b.getX() * (c.getY() - a.getY()) + c.getX() * (a.getY() - b.getY())) / 2.0);
-        if (!canBeBuild()) {
-	    throw new IllegalArgumentException("Triangle cannot be build");
-	}
-        return area;
+    double area() {
+		if (canBeBuild()) {
+			double area = Math.abs((a.getX() * (b.getY() - c.getY()) + b.getX() * (c.getY() - a.getY()) + c.getX() * (a.getY() - b.getY())) / 2.0);
+			return area;
+		}
+
+		return 0.0;
     }
 /**
 * Method check can be build triangle or no.
 * @return boolean value is can be build triangle.
 */
-    public boolean canBeBuild() {
+    boolean canBeBuild() {
+		if (this.a == null || this.b == null || this.c == null) {
+			return false;
+		}
         double distanceAToB = a.distanceTo(b);
         double distanceAToC = a.distanceTo(c);
         double distanceBToC = b.distanceTo(c);
