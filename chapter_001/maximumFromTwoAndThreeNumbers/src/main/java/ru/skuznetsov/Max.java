@@ -21,7 +21,6 @@ public class Max {
 	* @return largest number
 	*/
     public int max(int first, int second, int third) {
-        int maximumFromFirstAndSecond = max(first, second);
-        return maximumFromFirstAndSecond > third ? maximumFromFirstAndSecond : third;
+        return max(max(first, second), third);
     }
 }

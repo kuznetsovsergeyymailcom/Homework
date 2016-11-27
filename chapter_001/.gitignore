@@ -19,5 +19,5 @@ resources/
 #idea folders
 .idea/
 .metadata/
-*.iml
+.idea/*.iml
 RemoteSystemsTempFiles/
