@@ -21,6 +21,7 @@
 	   <module>piramida</module>
         <module>expandArray</module>
         <module>bubbleSort</module>
+        <module>rotateArray</module>
     </modules>
 
 <dependencies>       
