@@ -23,6 +23,7 @@
         <module>bubbleSort</module>
         <module>rotateArray</module>
         <module>arrayWithoutDublicates</module>
+        <module>isSubstring</module>
     </modules>
 
 <dependencies>       
