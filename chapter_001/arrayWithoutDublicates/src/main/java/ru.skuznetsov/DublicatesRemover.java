@@ -18,7 +18,7 @@ public class DublicatesRemover {
         int uniqueCount = array.length;
         for (int i = 0; i < uniqueCount; i++) {
             for (int j = i + 1; j < uniqueCount; j++) {
-                if (array[i] == array[j]) {
+                if (array[i].equals(array[j])) {
                     array[j] = array[uniqueCount - 1];
                     uniqueCount--;
                     j--;
