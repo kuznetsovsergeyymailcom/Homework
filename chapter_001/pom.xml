@@ -22,6 +22,7 @@
         <module>expandArray</module>
         <module>bubbleSort</module>
         <module>rotateArray</module>
+        <module>arrayWithoutDublicates</module>
     </modules>
 
 <dependencies>       
