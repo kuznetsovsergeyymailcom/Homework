@@ -16,6 +16,7 @@ resources/
 .metadata/
 *.iml
 RemoteSystemsTempFiles/
+.recommenders/
 
 # Eclipse project files
 .settings
