@@ -38,18 +38,6 @@ public class Task {
         this.setDateOfCreation();
     }
     /**
-     * Task constructor with comments.
-     * @param name - name of task
-     * @param description - description of task
-     * @param comment - comment of task
-     * */
-    public Task(String name, String description, Comment comment) {
-        this.name = name;
-        this.description = description;
-        this.addComment(comment);
-        this.setDateOfCreation();
-    }
-    /**
      * Adding comments to task.
      * @param comment - new comment
      * */

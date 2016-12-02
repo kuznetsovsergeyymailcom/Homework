@@ -1,12 +1,12 @@
 package ru.skuznetsov;
 
-import ru.skuznetsov.exceptions.UnknownOperation;
 import ru.skuznetsov.interfaces.ITaskManager;
+import ru.skuznetsov.menu.Menu;
 
 /**
  * Created by Sergey on 30.11.2016.
  */
-public class TaskManager implements ITaskManager {
+public class TaskManager extends Menu implements ITaskManager {
     /**
      * Instance of task manager.
      * */
@@ -184,7 +184,7 @@ public class TaskManager implements ITaskManager {
      * */
     @Override
     public void addCommentToTask() {
-        System.out.println("Enter name of task, in wich one you want to add comment or exit to quit: ");
+        System.out.println("Enter name of task, in wich one you want to add comment or enter exit to quit: ");
         showAllTasks();
         System.out.print("Name of task: ");
         String userInput = System.console().readLine();
@@ -206,39 +206,6 @@ public class TaskManager implements ITaskManager {
         }
     }
 
-    /**
-     * Method outputs main menu and returns user choose of operation.
-     * @return number of operation
-     * */
-    public int mainMenu() {
-        final int firstNumberOfOperation = 0, numberOfExitOperation = 7;
-        int userOperationNumber = 0;
-        System.out.println("\n Choose action: \n");
-        System.out.println("1. Add task");
-        System.out.println("2. Edit task");
-        System.out.println("3. Remove task");
-        System.out.println("4. Show all tasks");
-        System.out.println("5. Show tasks by name");
-        System.out.println("6. Add comments to task");
-        System.out.println("7. Exit");
-        System.out.print("\nYour input: ");
-        String userInput = System.console().readLine();
-        try {
-
-            userOperationNumber = Integer.valueOf(userInput);
-            if (userOperationNumber < firstNumberOfOperation || userOperationNumber > numberOfExitOperation) {
-                throw new UnknownOperation("Number must be from 0 to 7 please input choose again");
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("Enter nmber of operation from 1 to 7");
-            mainMenu();
-        } catch (UnknownOperation e) {
-            System.out.println(e.getMessage());
-            mainMenu();
-        }
-
-        return userOperationNumber;
-    }
     /**
      * Takes user input from console.
      * @return user input
