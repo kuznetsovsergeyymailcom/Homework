@@ -1,12 +1,17 @@
 package ru.skuznetsov;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.Random;
 
 /**
- * Created by Sergey on 30.11.2016.
+ * Created by Sergey on 04.12.2016.
  */
 public class Task {
+    /**
+     * random id of task.
+     * */
+    private String id;
     /**
      * Name of task.
      * */
@@ -14,50 +19,77 @@ public class Task {
     /**
      * Description of task.
      * */
-    private String description;
+    private String description = "";
     /**
-     * Date of creation.
+     * Date of description of task.
      * */
-    private LocalDateTime dateOfCreation;
+    private long dateOfCreation;
     /**
-     * Array of comments.
+     * Storage of comments.
      * */
     private Comment[] comments = new Comment[0];
     /**
-     * Default constructor.
+     * Random generator.
+     * */
+    private Random random = new Random();
+    /**
+     * Default empty constructor.
      * */
     public Task() { }
     /**
-     * Task constructor without comments.
+     * Constructor with two params: name and description.
      * @param name - name of task
      * @param description - description of task
      * */
     public Task(String name, String description) {
+        final int bound = 100;
         this.name = name;
         this.description = description;
+        this.id = String.valueOf(this.random.nextInt(bound));
         this.setDateOfCreation();
     }
     /**
-     * Adding comments to task.
-     * @param comment - new comment
+     * Constructor with two params: id, name and description and new comment.
+     * @param id - random generated id of task
+     * @param name - name of task
+     * @param description - description of task
      * */
-    public void addComment(Comment comment) {
-        int lenght = this.comments.length;
-        // выделяем массив размером на 1 больше старого
-        Comment[] newComments = new Comment[lenght + 1];
-        // Переносим комментарии из старого массива в новый
-        if (lenght > 0) {
-            for (int i = 0; i < lenght; i++) {
-                newComments[i] = this.comments[i];
-            }
-        }
-        // Вставляем новое значение в конец
-        newComments[lenght] = comment;
-        // Копируем массив
-        this.comments = newComments;
+    public Task(String id, String name, String description) {
+        this.name = name;
+        this.description = description;
+        this.id = id;
+        this.setDateOfCreation();
     }
     /**
-     * Method returns name of task.
+     * Constructor with two params: id, name and description and new comment.
+     * @param id - random generated id of task
+     * @param name - name of task
+     * @param description - description of task
+     * @param comment - new comment of task
+     * */
+    public Task(String id, String name, String description, Comment comment) {
+        this.name = name;
+        this.description = description;
+        this.id = id;
+        this.setDateOfCreation();
+        addComment(comment);
+    }
+    /**
+     * Getter of id.
+     * @return id of task
+     * */
+    public String getId() {
+        return id;
+    }
+    /**
+     * Setter of id.
+     * @param id - random id of task.
+     * */
+    public void setId(String id) {
+        this.id = id;
+    }
+    /**
+     * Getter of task name.
      * @return name of task
      * */
     public String getName() {
@@ -65,7 +97,7 @@ public class Task {
     }
     /**
      * Setter of task name.
-     * @param name - new name of task
+     * @param name - naem of task
      * */
     public void setName(String name) {
         this.name = name;
@@ -78,48 +110,93 @@ public class Task {
         return description;
     }
     /**
-     * Setter of description.
+     * Setter of descripiton.
      * @param description - description of task
      * */
     public void setDescription(String description) {
         this.description = description;
     }
     /**
-     * Getter of comments array.
-     * @return method return array of comments
+     * Getter of comments.
+     * @return array of comments
      * */
     public Comment[] getComments() {
         return comments;
     }
     /**
+     * Method add new comment to comments storage.
+     * @param comment - new comment for task
+     * */
+    public void addComment(Comment comment) {
+        Comment[] temp = new Comment[this.comments.length + 1];
+        System.arraycopy(this.comments, 0, temp, 0, this.comments.length);
+        temp[this.comments.length] = comment;
+        this.comments = temp;
+    }
+    /**
      * Setter of creation date.
      * @return date of creation
      * */
-    public LocalDateTime getDateOfCreation() {
+    public long getDateOfCreation() {
         return dateOfCreation;
     }
     /**
      * Getter of creation.
      * */
-    private void setDateOfCreation() {
-        this.dateOfCreation = LocalDateTime.now();
+    public void setDateOfCreation() {
+        this.dateOfCreation = new Date().getTime();
     }
-
     /**
-     * Setter of comments.
-     * @param comments - new comment
+     * Getter of creation.
+     * @param newDate - new date of creation
      * */
-    public void setComments(Comment[] comments) {
-        this.comments = comments;
+    public void changeDateOfCreation(long newDate) {
+        this.dateOfCreation = newDate;
     }
     /**
      * String representation of task.
-     * @return string view of object
+     * @return string view of task
      * */
     @Override
     public String toString() {
-        return "Task {"
-                + "name = '" + name + '\'' + ", description = '" + description + '\''
-                + ", dateOfCreation = " + dateOfCreation + ", comments = " + Arrays.toString(comments) + '}' + "\n";
+        return "Task{" + "id='" + id + '\'' + ", name='" + name + '\'' + ", description='" + description + '\''
+                + ", dateOfCreation=" + new Date(dateOfCreation) + ", comments=" + Arrays.toString(comments) + '}';
+    }
+    /**
+     * Method equals this task and argument object.
+     * @param o - over object
+     * @return true if objects equals
+     * */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Task task = (Task) o;
+
+        if (name != null ? !name.equals(task.name) : task.name != null) {
+            return false;
+        }
+        if (description != null ? !description.equals(task.description) : task.description != null) {
+            return false;
+        }
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        return Arrays.equals(comments, task.comments);
+    }
+    /**
+     * Hash code of task.
+     * @return hash code
+     * */
+    @Override
+    public int hashCode() {
+        final int genNum = 31;
+        int result = name != null ? name.hashCode() : 0;
+        result = genNum * result + (description != null ? description.hashCode() : 0);
+        result = genNum * result + Arrays.hashCode(comments);
+        return result;
     }
 }
