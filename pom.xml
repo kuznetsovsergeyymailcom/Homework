@@ -15,6 +15,7 @@
 
     <modules> 
        <module>chapter_001</module>
+        <module>chapter_002</module>
     </modules>
 
     
@@ -38,10 +39,11 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>                
-				<configuration>
-					<compillerVersion>1.8</compillerVersion>
-				</configuration>                   
+                <version>3.3</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
             </plugin>        
 			<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -70,8 +72,11 @@
                 <version>2.7</version>
                 <configuration>
 				<argLine>-XX:-UseSplitVerifier</argLine>
+					<formats>
+						<format>html</format>
+						<format>xml</format>
+					</formats>
                     <check>
-					
                         <branchRate>50</branchRate>
                         <lineRate>60</lineRate>
                         <haltOnFailure>true</haltOnFailure>
@@ -80,10 +85,6 @@
                         <packageLineRate>60</packageLineRate>
                         <packageBranchRate>50</packageBranchRate>
                     </check>
-					<formats>
-						<format>html</format>
-						<format>xml</format>
-					</formats>
                 </configuration>
                 <executions>
                     <execution>
@@ -95,6 +96,7 @@
                         </goals>
                     </execution>
                 </executions>
+
             </plugin>
         </plugins>
     </build>
