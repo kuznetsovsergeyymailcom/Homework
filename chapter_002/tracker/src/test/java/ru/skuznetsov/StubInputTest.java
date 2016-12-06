@@ -3,9 +3,7 @@ package ru.skuznetsov;
 import org.junit.Assert;
 import org.junit.Test;
 import ru.skuznetsov.input.StubInput;
-
-import java.util.Arrays;
-import java.util.Date;
+import ru.skuznetsov.intefraces.ITaskManager;
 
 /**
  * Created by Sergey on 06.12.2016.
@@ -17,7 +15,7 @@ public class StubInputTest {
     @Test
     public void ifAddTaskCountOfTasksIncrease() {
         final int expectedCount = 6;
-        Tracker_polimorph tracker = new Tracker_polimorph(new StubInput(
+        ITaskManager tracker = new TrackerPolimorth(new StubInput(
                 new Task[]{new Task("task1", "desc1"),
                                 new Task("task2", "desc2"),
                                 new Task("task3", "desc3")}));
@@ -32,7 +30,7 @@ public class StubInputTest {
     @Test
     public void ifRemoveTaskThanCountChanges() {
         final int expected = 3;
-        Tracker_polimorph tracker = new Tracker_polimorph(new StubInput(
+        ITaskManager tracker = new TrackerPolimorth(new StubInput(
                 new Task[]{new Task("task1", "desc1"),
                         new Task("task2", "desc2"),
                         new Task("task3", "desc3")}));
@@ -46,7 +44,7 @@ public class StubInputTest {
      * */
     @Test
     public void ifAddTaskThenEqualsExpectedTasks() {
-        Tracker_polimorph tracker = new Tracker_polimorph(new StubInput(
+        ITaskManager tracker = new TrackerPolimorth(new StubInput(
                 new Task[]{new Task("task1", "desc1"),
                         new Task("task2", "desc2"),
                         new Task("task3", "desc3")}));
@@ -64,7 +62,7 @@ public class StubInputTest {
     @Test
     public void thenAddCommentThanCountOfCommentsWillIncrease() {
         final int expected = 1;
-        Tracker_polimorph tracker = new Tracker_polimorph(new StubInput(
+        ITaskManager tracker = new TrackerPolimorth(new StubInput(
                 new Task[]{new Task("task1", "desc1"),
                         new Task("task2", "desc2"),
                         new Task("task3", "desc3")}));
@@ -78,7 +76,7 @@ public class StubInputTest {
      * */
     @Test
     public void thenAddCommentThanCompareExpectedResult() {
-        Tracker_polimorph tracker = new Tracker_polimorph(new StubInput(
+        ITaskManager tracker = new TrackerPolimorth(new StubInput(
                 new Task[]{
                         new Task("task1", "desc1")}));
         Task task = tracker.addCommentToTask();
@@ -90,7 +88,7 @@ public class StubInputTest {
      * */
     @Test
     public void ifAddCommentCheckAddedComment() {
-        Tracker_polimorph tracker = new Tracker_polimorph(new StubInput(
+        ITaskManager tracker = new TrackerPolimorth(new StubInput(
                 new Task[]{
                         new Task("task1", "desc1")}));
         tracker.addCommentToTask();
@@ -102,7 +100,7 @@ public class StubInputTest {
      * */
     @Test
     public void ifAddCommentCheckAddedCommentOnEquals() {
-        Tracker_polimorph tracker = new Tracker_polimorph(new StubInput(
+        ITaskManager tracker = new TrackerPolimorth(new StubInput(
                 new Task[]{
                         new Task("task1", "desc1")}));
         String id = tracker.getTaskByName("task1").getId();
@@ -115,7 +113,7 @@ public class StubInputTest {
      * */
     @Test
     public void ifEditTaskByNameThenResultEqualsWithExpected() {
-        Tracker_polimorph tracker = new Tracker_polimorph(new StubInput(
+        ITaskManager tracker = new TrackerPolimorth(new StubInput(
                 new Task[]{
                         new Task("task1", "desc1")}));
         String id = tracker.getTaskByName("task1").getId();
@@ -127,7 +125,7 @@ public class StubInputTest {
      * */
     @Test
     public void ifAddTaskAndSetDescriptionCompareItWithExpected() {
-        Tracker_polimorph tracker = new Tracker_polimorph(new StubInput(
+        ITaskManager tracker = new TrackerPolimorth(new StubInput(
                 new Task[]{
                         new Task("task1", "desc1")}));
         String id = tracker.getTaskByName("task1").getId();
@@ -140,7 +138,7 @@ public class StubInputTest {
      * */
     @Test
     public void ifAddCommentToTaskWhereWasCommentThenCompareExpectedWithFactedCountOfComments() {
-        Tracker_polimorph tracker = new Tracker_polimorph(new StubInput(
+        ITaskManager tracker = new TrackerPolimorth(new StubInput(
                 new Task[]{
                         new Task("task1", "desc1")}));
         tracker.addCommentToTask();
@@ -152,12 +150,13 @@ public class StubInputTest {
      * */
     @Test
     public void ifAddCommentToTaskWhereWasCommentThenCompareExpectedWithFactedComment() {
-        Tracker_polimorph tracker = new Tracker_polimorph(new StubInput(
+        ITaskManager tracker = new TrackerPolimorth(new StubInput(
                 new Task[]{
                         new Task("task1", "desc1")}));
         tracker.addCommentToTask();
         tracker.addCommentToTask();
         Assert.assertEquals("comment12", tracker.getAllTasks()[0].getComments()[1].getDescription());
+        Assert.assertEquals("comment1", tracker.getAllTasks()[0].getComments()[0].getDescription());
     }
 
 }

@@ -10,17 +10,26 @@ import java.util.Random;
  * Created by Sergey on 05.12.2016.
  */
 public class StubInput implements ITaskManager {
+    /**
+     * Internal storage.
+     * */
     private Task[] tasks;
-
+    /**
+     * Constructor with array on param.
+     * @param tasks - new array
+     *
+     * */
     public StubInput(Task[] tasks) {
         this.tasks = tasks;
     }
 
     /**
      * Add new task with name = "task", index + 1, description =  "desc", index + 1.
+     * @return task
      * */
     @Override
     public Task addTask() {
+
         int lenght = this.tasks.length;
         Task[] temp = new Task[this.tasks.length + 1];
         System.arraycopy(this.tasks, 0, temp, 0, this.tasks.length);
@@ -28,7 +37,10 @@ public class StubInput implements ITaskManager {
         this.tasks = temp;
         return this.tasks[this.tasks.length - 1];
     }
-
+    /**
+     * Add new comment to task.
+     * @return task
+     * */
     @Override
     public Task addCommentToTask() {
         Random random = new Random();
@@ -47,7 +59,6 @@ public class StubInput implements ITaskManager {
             comment += commentIndex;
 
         }
-
 
         for (int i = 0; i < length; ++i) {
             Task task = this.tasks[i];
@@ -102,22 +113,30 @@ public class StubInput implements ITaskManager {
                 temp[j++] = task;
             }
         }
+
         this.tasks = temp;
     }
     /**
      * Takes last task.
+     * @return task
      * */
     @Override
     public Task getTaskByName() {
-
         return this.tasks[this.tasks.length - 1];
     }
-
+    /**
+     * Getter returns array with tasks.
+     * @return all tasks
+     * */
     @Override
     public Task[] getAllTasks() {
         return this.tasks;
     }
-
+    /**
+     * Get task by name.
+     * @param name - name of task
+     * @return task with specified name
+     * */
     @Override
     public Task getTaskByName(String name) {
         for (Task task : this.tasks) {

@@ -5,13 +5,17 @@ package ru.skuznetsov;
  * */
 public class Tracker {
     /**
+     * Initial length of storage.
+     * */
+    private final int firstLength = 5;
+    /**
      * local storage.
      * */
-    private Task[] tasks = new Task[5];
+    private Task[] tasks = new Task[firstLength];
     /**
      * Position of index.
      * */
-    int position = 0;
+    private int position = 0;
     /**
      * Default constructor without args.
      * */
@@ -22,8 +26,9 @@ public class Tracker {
      * @param task - new task
      * */
     public void addTask(Task task) {
-        if (position == ((this.tasks.length * 2) / 3)) {
-            Task[] temp = new Task[this.tasks.length * 2];
+        final int chisl = 2, znam = 3;
+        if (position == ((this.tasks.length * chisl) / znam)) {
+            Task[] temp = new Task[this.tasks.length * chisl];
             System.arraycopy(this.tasks, 0, temp, 0, position);
             temp[position++] = task;
             this.tasks = temp;
@@ -159,11 +164,12 @@ public class Tracker {
      * */
     private int countOfItemsInRangeOfId(int from, int to) {
         int count = 0;
+        int start = from <= to ? from : to, largest = from >= to ? from : to;
 
         for (int i = 0; i < getAllTasks().length; ++i) {
             Task task = this.tasks[i];
-            if ((from <= to ? from : to) <= Integer.valueOf(task.getId()).intValue()
-                    && Integer.valueOf(task.getId()).intValue() <= (from >= to ? from : to)) {
+            int id = Integer.valueOf(task.getId()).intValue();
+            if (start <= id && id <= largest) {
                 ++count;
             }
         }

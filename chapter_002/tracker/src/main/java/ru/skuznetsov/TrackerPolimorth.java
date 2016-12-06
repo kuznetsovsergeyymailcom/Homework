@@ -5,7 +5,7 @@ import ru.skuznetsov.intefraces.ITaskManager;
 /**
  * Tracker class created 4/12/16.
  * */
-public class Tracker_polimorph implements ITaskManager{
+public class TrackerPolimorth implements ITaskManager {
     /**
      * Instance of task manager,.
      * */
@@ -13,8 +13,9 @@ public class Tracker_polimorph implements ITaskManager{
 
     /**
      * Constructor with new task on param.
+     * @param taskManager - instance inplemented task manager
      * */
-    public Tracker_polimorph(ITaskManager taskManager) {
+    public TrackerPolimorth(ITaskManager taskManager) {
         this.taskManager = taskManager;
     }
    /**
@@ -28,7 +29,8 @@ public class Tracker_polimorph implements ITaskManager{
      * Method removes task from storage by name.
      * */
     @Override
-    public void removeTask() { this.taskManager.removeTask();
+    public void removeTask() {
+        this.taskManager.removeTask();
     }
     /**
      * Get array of task objects.

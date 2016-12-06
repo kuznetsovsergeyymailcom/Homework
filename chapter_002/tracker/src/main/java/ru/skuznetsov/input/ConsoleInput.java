@@ -4,15 +4,37 @@ import ru.skuznetsov.Comment;
 import ru.skuznetsov.Task;
 import ru.skuznetsov.intefraces.ITaskManager;
 
+import java.io.ByteArrayInputStream;
 import java.util.Scanner;
 
 /**
  * Created by Sergey on 05.12.2016.
  */
 public class ConsoleInput implements ITaskManager {
+    /**
+     * Storage.
+     * */
     private Task[] tasks = new Task[0];
-
-    private Scanner scanner = new Scanner(System.in);
+    /**
+     * Scanner user input.
+     * */
+    private Scanner scanner = null;
+    /**
+     * Default constructor.
+     * */
+    public ConsoleInput() { }
+    /**
+     * Constructor with user input simulated string.
+     * @param userInput - user input string
+     * */
+    public ConsoleInput(String userInput) {
+        System.setIn(new ByteArrayInputStream(userInput.getBytes()));
+        scanner = new Scanner(System.in);
+    }
+    /**
+     * Add new task with task name and description.
+     * @return task
+     * */
     @Override
     public Task addTask() {
         System.out.print("Enter name of task: ");
@@ -26,7 +48,10 @@ public class ConsoleInput implements ITaskManager {
         this.tasks = temp;
         return this.tasks[this.tasks.length - 1];
     }
-
+    /**
+     * Add new comment to task.
+     * @return task
+     * */
     @Override
     public Task addCommentToTask() {
         Task[] tempTasts = this.tasks;
@@ -46,7 +71,10 @@ public class ConsoleInput implements ITaskManager {
         }
         return null;
     }
-
+    /**
+     * Randomly choose task and change name and description.
+     * @return name of edited task
+     * */
     @Override
     public Task editTaskByName() {
         int length = this.tasks.length;
@@ -68,7 +96,9 @@ public class ConsoleInput implements ITaskManager {
         }
         return null;
     }
-
+    /**
+     * Randomly removing task.
+     * */
     @Override
     public void removeTask() {
         Task[] temp = new Task[this.tasks.length - 1];
@@ -84,7 +114,10 @@ public class ConsoleInput implements ITaskManager {
         }
         this.tasks = temp;
     }
-
+    /**
+     * Takes specific task.
+     * @return task
+     * */
     @Override
     public Task getTaskByName() {
         Task[] tempTasks = this.tasks;
@@ -101,13 +134,20 @@ public class ConsoleInput implements ITaskManager {
         }
         return null;
     }
-
-
+    /**
+     * Getter returns array with tasks.
+     * @return all tasks
+     * */
     @Override
     public Task[] getAllTasks() {
 
         return this.tasks;
     }
+    /**
+     * Get task by name.
+     * @param name - name of task
+     * @return task with specified name
+     * */
     @Override
     public Task getTaskByName(String name) {
         for (Task task : this.tasks) {

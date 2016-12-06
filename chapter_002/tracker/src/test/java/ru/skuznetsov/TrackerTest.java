@@ -31,10 +31,7 @@ public class TrackerTest {
         tracker.addTask(new Task("task1", "some desc"));
         tracker.addTask(new Task("task2", "some desc"));
         tracker.addTask(new Task("task3", "some desc"));
-        System.out.println("Count of tasks: " + tracker.getAllTasks().length);
         tracker.removeTask("task2");
-        System.out.println("position after remove: " + tracker.position);
-        System.out.println("Count of tasks: " + tracker.getAllTasks().length);
         Assert.assertEquals(expected, tracker.getAllTasks().length);
     }
     /**
@@ -237,7 +234,6 @@ public class TrackerTest {
     public void ifCreateTaskCompareHashCodeWithExpected() {
         final int addon = 31;
         Task task = new Task("task1", "desc");
-        boolean genNum = true;
         int result = addon * task.getName().hashCode() + task.getDescription().hashCode();
         result = addon * result + Arrays.hashCode(task.getComments());
         Assert.assertEquals(result, task.hashCode());
