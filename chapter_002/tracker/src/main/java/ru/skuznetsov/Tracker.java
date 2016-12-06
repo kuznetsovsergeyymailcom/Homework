@@ -1,4 +1,7 @@
 package ru.skuznetsov;
+
+import java.util.Arrays;
+
 /**
  * Tracker class created 4/12/16.
  * */
@@ -6,7 +9,11 @@ public class Tracker {
     /**
      * local storage.
      * */
-    private Task[] tasks = new Task[0];
+    private Task[] tasks = new Task[5];
+    /**
+     * Position of index.
+     * */
+    int position = 0;
     /**
      * Default constructor without args.
      * */
@@ -17,10 +24,21 @@ public class Tracker {
      * @param task - new task
      * */
     public void addTask(Task task) {
-        Task[] temp = new Task[this.tasks.length + 1];
-        System.arraycopy(this.tasks, 0, temp, 0, this.tasks.length);
-        temp[this.tasks.length] = task;
-        this.tasks = temp;
+        Task[] temp = null;
+
+        if (position == ((this.tasks.length * 2) / 3)) {
+            System.out.println("Increase . .");
+            temp = new Task[this.tasks.length * 2];
+            System.arraycopy(this.tasks, 0, temp, 0, position);
+            temp[position++] = task;
+            this.tasks = temp;
+            System.out.println("Length: " + this.tasks.length);
+            System.out.println(Arrays.toString(this.tasks));
+        } else {
+            this.tasks[position++] = task;
+            System.out.println("Length: " + this.tasks.length);
+            System.out.println(Arrays.toString(this.tasks));
+        }
     }
     /**
      * Method removes task crom storage by name.
