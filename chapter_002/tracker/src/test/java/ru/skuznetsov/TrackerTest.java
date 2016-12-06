@@ -73,7 +73,7 @@ public class TrackerTest {
         final int expected = 1;
         Tracker tracker = new Tracker();
         tracker.addTask(new Task("task1", "some desc"));
-        tracker.addCommentsToTask("task1", new Comment("Comment of task1"));
+        tracker.addCommentToTask("task1", new Comment("Comment of task1"));
         Comment[] comments = tracker.getTaskByName("task1").getComments();
         Assert.assertEquals(expected, comments.length);
     }
@@ -84,7 +84,7 @@ public class TrackerTest {
     public void thenAddCommentThanCompareExpectedResult() {
         Tracker tracker = new Tracker();
         tracker.addTask(new Task("task1", "some desc"));
-        tracker.addCommentsToTask("task1", new Comment("Comment of task1"));
+        tracker.addCommentToTask("task1", new Comment("Comment of task1"));
         String id = tracker.getTaskByName("task1").getId();
         Task task = tracker.getTaskByName("task1");
         Assert.assertEquals(new Task(id, "task1", "some desc", new Comment("Comment of task1")), task);
@@ -96,7 +96,7 @@ public class TrackerTest {
     public void ifAddCommentCheckAddedComment() {
         Tracker tracker = new Tracker();
         tracker.addTask(new Task("task1", "some desc"));
-        tracker.addCommentsToTask("task1", new Comment("Comment of task1"));
+        tracker.addCommentToTask("task1", new Comment("Comment of task1"));
         Assert.assertEquals("Comment of task1", tracker.getTaskByName("task1").getComments()[0].getDescription());
     }
     /**
@@ -107,7 +107,7 @@ public class TrackerTest {
         Tracker tracker = new Tracker();
         tracker.addTask(new Task("task1", "some desc"));
         String id = tracker.getTaskByName("task1").getId();
-        tracker.addCommentsToTask("task1", new Comment("Comment of task1"));
+        tracker.addCommentToTask("task1", new Comment("Comment of task1"));
         Assert.assertEquals((new Task(id, "task1", "some desc", new Comment("Comment of task1"))).getComments()[0], tracker.getTaskByName("task1").getComments()[0]);
     }
     /**
@@ -146,7 +146,7 @@ public class TrackerTest {
         Tracker tracker = new Tracker();
         tracker.addTask(new Task("task1", "some desc"));
         String id = tracker.getTaskByName("task1").getId();
-        tracker.addCommentsToTask("task1", new Comment("description"));
+        tracker.addCommentToTask("task1", new Comment("description"));
         tracker.getAllTasks()[0].getComments()[0].setDescription("new description");
         Assert.assertEquals("new description", tracker.getAllTasks()[0].getComments()[0].getDescription());
     }

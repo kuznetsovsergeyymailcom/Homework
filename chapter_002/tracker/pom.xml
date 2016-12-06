@@ -8,6 +8,7 @@
     <packaging>jar</packaging>
     <name>tracker</name>
 
+	
     <parent>
         <artifactId>chapter_002</artifactId>
         <groupId>ru.skuznetsov</groupId>
@@ -16,6 +17,8 @@
 
 	
     <build>
+		<finalName>tracker</finalName>
+	
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

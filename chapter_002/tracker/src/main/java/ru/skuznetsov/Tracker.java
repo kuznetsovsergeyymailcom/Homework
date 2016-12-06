@@ -117,7 +117,7 @@ public class Tracker {
      * @param nameOfTask - name of task
      * @param comment - new comment
      * */
-    public void addCommentsToTask(String nameOfTask, Comment comment) {
+    public void addCommentToTask(String nameOfTask, Comment comment) {
         if (this.isTaskExists(nameOfTask)) {
             Task[] var3 = this.tasks;
             int var4 = var3.length;
@@ -173,11 +173,5 @@ public class Tracker {
 
         return count;
     }
-    /**
-     * Main method.
-     * @param args - arguments of main method
-     * */
-    public static void main(String[] args) {
 
-    }
 }
