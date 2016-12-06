@@ -30,11 +30,9 @@ public class Tracker {
         Task[] temp = new Task[this.tasks.length - 1];
         int j = 0;
         if (this.isTaskExists(name)) {
-            Task[] var4 = this.tasks;
-            int var5 = var4.length;
 
-            for (int var6 = 0; var6 < var5; ++var6) {
-                Task task = var4[var6];
+            for (int i = 0; i < this.tasks.length; ++i) {
+                Task task = this.tasks[i];
                 if (!task.getName().equals(name)) {
                     temp[j++] = task;
                 }
@@ -61,11 +59,9 @@ public class Tracker {
     public Task[] getTasksByRangeOfId(int from, int to) {
         Task[] temp = new Task[this.countOfItemsInRangeOfId(from, to)];
         int index = 0;
-        Task[] var5 = this.tasks;
-        int var6 = var5.length;
 
-        for (int var7 = 0; var7 < var6; ++var7) {
-            Task task = var5[var7];
+        for (int i = 0; i < this.tasks.length; ++i) {
+            Task task = this.tasks[i];
             if ((from <= to ? from : to) <= Integer.valueOf(task.getId()).intValue()
                         && Integer.valueOf(task.getId()).intValue() <= (from >= to ? from : to)) {
                 temp[index] = task;
@@ -81,11 +77,8 @@ public class Tracker {
      * @return task by name
      * */
     public Task getTaskByName(String name) {
-        Task[] var2 = this.tasks;
-        int var3 = var2.length;
-
-        for (int var4 = 0; var4 < var3; ++var4) {
-            Task task = var2[var4];
+        for (int i = 0; i < this.tasks.length; ++i) {
+            Task task = this.tasks[i];
             if (task.getName().equals(name)) {
                 return task;
             }
@@ -96,21 +89,17 @@ public class Tracker {
     /**
      * Edit task by name.
      * @param name - name of task
-     * @param newName - new name of task
-     * @param newDescription - new description
+     * @param task - new task
      * */
-    public void editTaskByName(String name, String newName, String newDescription) {
-        Task[] var4 = this.tasks;
-        int var5 = var4.length;
+    public void editTaskByName(String name, Task task) {
 
-        for (int var6 = 0; var6 < var5; ++var6) {
-            Task task = var4[var6];
-            if (task.getName().equals(name)) {
-                task.setName(newName);
-                task.setDescription(newDescription);
+        for (int i = 0; i < this.tasks.length; ++i) {
+            Task tempTask = this.tasks[i];
+            if (tempTask.getName().equals(name)) {
+                tempTask.setName(task.getName());
+                tempTask.setDescription(task.getDescription());
             }
         }
-
     }
     /**
      * Add comment to task.
@@ -119,11 +108,9 @@ public class Tracker {
      * */
     public void addCommentToTask(String nameOfTask, Comment comment) {
         if (this.isTaskExists(nameOfTask)) {
-            Task[] var3 = this.tasks;
-            int var4 = var3.length;
 
-            for (int var5 = 0; var5 < var4; ++var5) {
-                Task task = var3[var5];
+            for (int i = 0; i < this.tasks.length; ++i) {
+                Task task = this.tasks[i];
                 if (task.getName().equals(nameOfTask)) {
                     task.addComment(comment);
                 }
@@ -140,11 +127,9 @@ public class Tracker {
      * */
     private boolean isTaskExists(String name) {
         boolean exists = false;
-        Task[] var3 = this.tasks;
-        int var4 = var3.length;
 
-        for (int var5 = 0; var5 < var4; ++var5) {
-            Task task = var3[var5];
+        for (int i = 0; i < this.tasks.length; ++i) {
+            Task task = this.tasks[i];
             if (task.getName().equals(name)) {
                 exists = true;
             }
@@ -160,11 +145,9 @@ public class Tracker {
      * */
     private int countOfItemsInRangeOfId(int from, int to) {
         int count = 0;
-        Task[] var4 = this.tasks;
-        int var5 = var4.length;
 
-        for (int var6 = 0; var6 < var5; ++var6) {
-            Task task = var4[var6];
+        for (int i = 0; i < this.tasks.length; ++i) {
+            Task task = this.tasks[i];
             if ((from <= to ? from : to) <= Integer.valueOf(task.getId()).intValue()
                     && Integer.valueOf(task.getId()).intValue() <= (from >= to ? from : to)) {
                 ++count;
