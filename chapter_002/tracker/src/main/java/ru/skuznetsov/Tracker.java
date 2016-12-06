@@ -1,7 +1,5 @@
 package ru.skuznetsov;
 
-import java.util.Arrays;
-
 /**
  * Tracker class created 4/12/16.
  * */
@@ -24,20 +22,13 @@ public class Tracker {
      * @param task - new task
      * */
     public void addTask(Task task) {
-        Task[] temp = null;
-
         if (position == ((this.tasks.length * 2) / 3)) {
-            System.out.println("Increase . .");
-            temp = new Task[this.tasks.length * 2];
+            Task[] temp = new Task[this.tasks.length * 2];
             System.arraycopy(this.tasks, 0, temp, 0, position);
             temp[position++] = task;
             this.tasks = temp;
-            System.out.println("Length: " + this.tasks.length);
-            System.out.println(Arrays.toString(this.tasks));
         } else {
             this.tasks[position++] = task;
-            System.out.println("Length: " + this.tasks.length);
-            System.out.println(Arrays.toString(this.tasks));
         }
     }
     /**
@@ -45,17 +36,16 @@ public class Tracker {
      * @param name - name of task
      * */
     public void removeTask(String name) {
-        Task[] temp = new Task[this.tasks.length - 1];
+        Task[] temp = new Task[getAllTasks().length - 1];
         int j = 0;
         if (this.isTaskExists(name)) {
-
-            for (int i = 0; i < this.tasks.length; ++i) {
+            for (int i = 0; i < getAllTasks().length; ++i) {
                 Task task = this.tasks[i];
                 if (!task.getName().equals(name)) {
                     temp[j++] = task;
                 }
             }
-
+            this.position--;
             this.tasks = temp;
         } else {
             throw new IllegalArgumentException("Unknown name of task");
@@ -66,7 +56,11 @@ public class Tracker {
      * @return array task
      * */
     public Task[] getAllTasks() {
-        return this.tasks;
+        Task[] tasks = new Task[position];
+        for (int i = 0; i < position; i++) {
+            tasks[i] = this.tasks[i];
+        }
+        return tasks;
     }
     /**
      * Get task by range of id.
@@ -77,11 +71,13 @@ public class Tracker {
     public Task[] getTasksByRangeOfId(int from, int to) {
         Task[] temp = new Task[this.countOfItemsInRangeOfId(from, to)];
         int index = 0;
+        int start = from <= to ? from : to;
+        int finish = from >= to ? from : to;
 
-        for (int i = 0; i < this.tasks.length; ++i) {
+        for (int i = 0; i < getAllTasks().length; ++i) {
             Task task = this.tasks[i];
-            if ((from <= to ? from : to) <= Integer.valueOf(task.getId()).intValue()
-                        && Integer.valueOf(task.getId()).intValue() <= (from >= to ? from : to)) {
+            int id = Integer.valueOf(task.getId()).intValue();
+            if (start <= id && id <= finish) {
                 temp[index] = task;
                 ++index;
             }
@@ -95,7 +91,7 @@ public class Tracker {
      * @return task by name
      * */
     public Task getTaskByName(String name) {
-        for (int i = 0; i < this.tasks.length; ++i) {
+        for (int i = 0; i < getAllTasks().length; ++i) {
             Task task = this.tasks[i];
             if (task.getName().equals(name)) {
                 return task;
@@ -111,7 +107,7 @@ public class Tracker {
      * */
     public void editTaskByName(String name, Task task) {
 
-        for (int i = 0; i < this.tasks.length; ++i) {
+        for (int i = 0; i < getAllTasks().length; ++i) {
             Task tempTask = this.tasks[i];
             if (tempTask.getName().equals(name)) {
                 tempTask.setName(task.getName());
@@ -127,7 +123,7 @@ public class Tracker {
     public void addCommentToTask(String nameOfTask, Comment comment) {
         if (this.isTaskExists(nameOfTask)) {
 
-            for (int i = 0; i < this.tasks.length; ++i) {
+            for (int i = 0; i < getAllTasks().length; ++i) {
                 Task task = this.tasks[i];
                 if (task.getName().equals(nameOfTask)) {
                     task.addComment(comment);
@@ -146,7 +142,7 @@ public class Tracker {
     private boolean isTaskExists(String name) {
         boolean exists = false;
 
-        for (int i = 0; i < this.tasks.length; ++i) {
+        for (int i = 0; i < getAllTasks().length; ++i) {
             Task task = this.tasks[i];
             if (task.getName().equals(name)) {
                 exists = true;
@@ -164,7 +160,7 @@ public class Tracker {
     private int countOfItemsInRangeOfId(int from, int to) {
         int count = 0;
 
-        for (int i = 0; i < this.tasks.length; ++i) {
+        for (int i = 0; i < getAllTasks().length; ++i) {
             Task task = this.tasks[i];
             if ((from <= to ? from : to) <= Integer.valueOf(task.getId()).intValue()
                     && Integer.valueOf(task.getId()).intValue() <= (from >= to ? from : to)) {
@@ -173,6 +169,13 @@ public class Tracker {
         }
 
         return count;
+    }
+    /**
+     * Getter for position.
+     * @return position in tasks array
+     * */
+    public int getPosition() {
+        return this.position;
     }
 
 }

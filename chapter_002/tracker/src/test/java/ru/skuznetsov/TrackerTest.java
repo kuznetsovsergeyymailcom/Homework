@@ -31,7 +31,10 @@ public class TrackerTest {
         tracker.addTask(new Task("task1", "some desc"));
         tracker.addTask(new Task("task2", "some desc"));
         tracker.addTask(new Task("task3", "some desc"));
+        System.out.println("Count of tasks: " + tracker.getAllTasks().length);
         tracker.removeTask("task2");
+        System.out.println("position after remove: " + tracker.position);
+        System.out.println("Count of tasks: " + tracker.getAllTasks().length);
         Assert.assertEquals(expected, tracker.getAllTasks().length);
     }
     /**
@@ -135,7 +138,7 @@ public class TrackerTest {
         Tracker tracker = new Tracker();
         tracker.addTask(new Task("task1", "some desc"));
         String id = tracker.getTaskByName("task1").getId();
-        tracker.editTaskByName("task1", "task123", "new description");
+        tracker.editTaskByName("task1", new Task("task123", "new description"));
         Assert.assertEquals(new Task(id, "task123", "new description"), tracker.getAllTasks()[0]);
     }
     /**
