@@ -22,7 +22,9 @@ public class ConsoleInput implements ITaskManager {
     /**
      * Default constructor.
      * */
-    public ConsoleInput() { }
+    public ConsoleInput() {
+        scanner = new Scanner(System.in);
+    }
     /**
      * Constructor with user input simulated string.
      * @param userInput - user input string
