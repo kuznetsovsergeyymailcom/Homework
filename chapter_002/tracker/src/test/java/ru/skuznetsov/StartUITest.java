@@ -26,7 +26,7 @@ public class StartUITest {
     public void mainMethodTestEditTask() {
         StartUI startUI = new StartUI("1\n2\n7");
         startUI.main(new String[]{"task1\ndesc1\ntask1\ntask123\nnew description"});
-        Task task = StartUI.getTestTask();
+        Task task = StartUI.getTrackerPolimorth().getTaskManager().getTestTask();
         String id = task.getId();
         Assert.assertEquals(new Task(id, "task123", "new description"), task);
     }
@@ -37,7 +37,7 @@ public class StartUITest {
     public void mainMethodTestRemovingTask() {
         StartUI startUI = new StartUI("1\n1\n3\n7");
         startUI.main(new String[]{"task1\ndesc1\ntask2\ndesc2\ntask1"});
-        Task[] tasks = StartUI.getTaskManager().getAllTasks();
+        Task[] tasks = StartUI.getTrackerPolimorth().getTaskManager().getAllTasks();
 
         Assert.assertEquals(new Task[]{new Task("task2", "desc2")}, tasks);
     }

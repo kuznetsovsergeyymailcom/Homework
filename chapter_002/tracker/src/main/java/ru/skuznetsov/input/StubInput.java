@@ -15,6 +15,10 @@ public class StubInput implements ITaskManager {
      * */
     private Task[] tasks;
     /**
+     * Task for test control.
+     * */
+    private Task testTask = null;
+    /**
      * Constructor with array on param.
      * @param tasks - new array
      *
@@ -34,6 +38,7 @@ public class StubInput implements ITaskManager {
         Task[] temp = new Task[this.tasks.length + 1];
         System.arraycopy(this.tasks, 0, temp, 0, this.tasks.length);
         temp[this.tasks.length] = new Task("task" + (lenght + 1), "desc" + (lenght + 1));
+        setTestTask(temp[this.tasks.length]);
         this.tasks = temp;
         return this.tasks[this.tasks.length - 1];
     }
@@ -64,6 +69,7 @@ public class StubInput implements ITaskManager {
             Task task = this.tasks[i];
             if (task.getName().equals(nameOfTask)) {
                 task.addComment(new Comment(comment));
+                setTestTask(task);
                 return task;
             }
         }
@@ -89,6 +95,7 @@ public class StubInput implements ITaskManager {
             if (task.getName().equals(name)) {
                 task.setName(newName);
                 task.setDescription(newDescription);
+                setTestTask(task);
                 return task;
             }
         }
@@ -101,12 +108,11 @@ public class StubInput implements ITaskManager {
     public void removeTask() {
         Random random = new Random();
         Task[] temp = new Task[this.tasks.length - 1];
-        int length = this.tasks.length;
+        int length = temp.length;
         int taskNumber = random.nextInt(length);
         int j = 0;
 
         String name = this.tasks[taskNumber].getName();
-
         for (int i = 0; i < this.tasks.length - 1; ++i) {
             Task task = this.tasks[i];
             if (!task.getName().equals(name)) {
@@ -141,9 +147,25 @@ public class StubInput implements ITaskManager {
     public Task getTaskByName(String name) {
         for (Task task : this.tasks) {
             if (task.getName().equals(name)) {
+                setTestTask(task);
                 return task;
             }
         }
         return null;
+    }
+    /**
+     * Getter for test task.
+     * @return test task
+     * */
+    @Override
+    public Task getTestTask() {
+        return testTask;
+    }
+    /**
+     * Setter for test task.
+     * @param testTask - task for test control
+     * */
+    public void setTestTask(Task testTask) {
+        this.testTask = testTask;
     }
 }

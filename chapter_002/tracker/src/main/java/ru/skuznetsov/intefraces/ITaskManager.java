@@ -42,4 +42,9 @@ public interface ITaskManager {
      * */
     Task[] getAllTasks();
 
+    /**
+     * Getter for test task.
+     * @return Task
+     * */
+    Task getTestTask();
 }

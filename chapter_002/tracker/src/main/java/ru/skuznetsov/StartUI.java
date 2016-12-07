@@ -1,10 +1,9 @@
 package ru.skuznetsov;
 
 import ru.skuznetsov.input.ConsoleInput;
-import ru.skuznetsov.intefraces.ITaskManager;
+//import ru.skuznetsov.input.StubInput;
 
 import java.io.ByteArrayInputStream;
-import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -26,7 +25,7 @@ public class StartUI {
     /**
      * Tracker instance with storage.
      * */
-    private static ITaskManager taskManager = null;
+    private static TrackerPolimorth trackerPolimorth = null;
     /**
      * Scanner.
      * */
@@ -45,47 +44,34 @@ public class StartUI {
      * @param args - arguments
      * */
     public static void main(String[] args) {
-//        ITaskManager taskManager = new TrackerPolimorth(
+        // Тестирование StartUI настроено на эмюляцию пользовательского ввода,
+        // тестирование StubInput проводится отдельно.
+//        trackerPolimorth = new TrackerPolimorth(
 //                new StubInput(
 //                        new Task[]{new Task("task1", "desc1"),
 //                                new Task("task2", "desc2"),
 //                                new Task("task3", "desc3")}));
-        taskManager = new TrackerPolimorth(new ConsoleInput(args[0]));
+        // Pass string in  of ConsoleInput instance - using emulation of user input.
+        // ConsoleInput without args - standart user input in console.
+        trackerPolimorth = new TrackerPolimorth(new ConsoleInput(args[0]));
 
-        final int exitOperation = 7, add = 1, edit = 2, remove = 3, showAll = 4, showSpec = 5, addComment = 6;
+        final int exitOperation = 7, add = 1, addComment = 6;
         int userInput = 0;
-        while ((userInput = mainMenu()) != exitOperation) {
-            switch (userInput) {
-                case add:
-                    testTask = taskManager.addTask();
-                    break;
-                case edit:
-                    testTask = taskManager.editTaskByName();
-                    break;
-                case remove:
-                    try {
-                        taskManager.removeTask();
-                    } catch (ArrayIndexOutOfBoundsException e) {
-                        System.out.println("Unknown name of task");
-                    } finally {
-                        break;
-                    }
-                case showAll:
-                    tasks = taskManager.getAllTasks();
-                    System.out.println(Arrays.toString(tasks));
-                    break;
-                case showSpec:
-                    testTask = taskManager.getTaskByName();
-                    System.out.println(testTask);
-                    break;
-                case addComment:
-                    testTask = taskManager.addCommentToTask();
-                    break;
-                default:
-                    System.out.println("Unknown operation");
+        do {
+            userInput = mainMenu();
+            try {
+                if (userInput >= add && userInput <= addComment) {
+                    trackerPolimorth.getActions()[Integer.valueOf(userInput) - 1].action();
+                    testTask = trackerPolimorth.getTaskManager().getTestTask();
+                } else {
+                    continue;
+                }
+            } catch (NumberFormatException e) {
+                continue;
+            } catch (Exception e) {
+                continue;
             }
-        }
-
+        } while (userInput != exitOperation);
     }
     /**
      * Main menu.
@@ -122,8 +108,8 @@ public class StartUI {
      * Getter of task manager.
      * @return instance of task manager
      * */
-    public static ITaskManager getTaskManager() {
-        return taskManager;
+    public static TrackerPolimorth getTrackerPolimorth() {
+        return trackerPolimorth;
     }
     /**
      * Getter of created or modified task.

@@ -16,6 +16,10 @@ public class ConsoleInput implements ITaskManager {
      * */
     private Task[] tasks = new Task[0];
     /**
+     * Task for tests.
+     * */
+    private Task testTask = null;
+    /**
      * Scanner user input.
      * */
     private Scanner scanner = null;
@@ -47,6 +51,7 @@ public class ConsoleInput implements ITaskManager {
         Task[] temp = new Task[this.tasks.length + 1];
         System.arraycopy(this.tasks, 0, temp, 0, this.tasks.length);
         temp[this.tasks.length] = new Task(name, desc);
+        setTestTask(temp[this.tasks.length]);
         this.tasks = temp;
         return this.tasks[this.tasks.length - 1];
     }
@@ -68,6 +73,7 @@ public class ConsoleInput implements ITaskManager {
             Task task = tempTasts[i];
             if (task.getName().equals(name)) {
                 task.addComment(new Comment(comment));
+                setTestTask(task);
                 return task;
             }
         }
@@ -93,6 +99,7 @@ public class ConsoleInput implements ITaskManager {
             if (task.getName().equals(name)) {
                 task.setName(newName);
                 task.setDescription(newDescription);
+                setTestTask(task);
                 return task;
             }
         }
@@ -131,6 +138,7 @@ public class ConsoleInput implements ITaskManager {
         for (int i = 0; i < length; ++i) {
             Task task = tempTasks[i];
             if (task.getName().equals(name)) {
+                setTestTask(task);
                 return task;
             }
         }
@@ -154,10 +162,24 @@ public class ConsoleInput implements ITaskManager {
     public Task getTaskByName(String name) {
         for (Task task : this.tasks) {
             if (task.getName().equals(name)) {
+                setTestTask(task);
                 return task;
             }
         }
         return null;
     }
-
+    /**
+     * Getter for test task.
+     * @return test task
+     * */
+    public Task getTestTask() {
+        return testTask;
+    }
+    /**
+     * Setter for test task.
+     * @param testTask - new or modified task
+     * */
+    public void setTestTask(Task testTask) {
+        this.testTask = testTask;
+    }
 }
