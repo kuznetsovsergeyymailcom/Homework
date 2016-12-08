@@ -4,7 +4,7 @@ import ru.skuznetsov.Comment;
 import ru.skuznetsov.Task;
 import ru.skuznetsov.intefraces.ITaskManager;
 
-import java.util.Random;
+import java.util.Scanner;
 
 /**
  * Created by Sergey on 05.12.2016.
@@ -24,6 +24,7 @@ public class StubInput implements ITaskManager {
      *
      * */
     public StubInput(Task[] tasks) {
+        super();
         this.tasks = tasks;
     }
 
@@ -34,93 +35,92 @@ public class StubInput implements ITaskManager {
     @Override
     public Task addTask() {
 
-        int lenght = this.tasks.length;
         Task[] temp = new Task[this.tasks.length + 1];
         System.arraycopy(this.tasks, 0, temp, 0, this.tasks.length);
-        temp[this.tasks.length] = new Task("task" + (lenght + 1), "desc" + (lenght + 1));
-        setTestTask(temp[this.tasks.length]);
+        temp[this.tasks.length] = new Task("task" + (this.tasks.length + 1), "desc" + (this.tasks.length + 1));
+        this.setTestTask(temp[this.tasks.length]);
         this.tasks = temp;
         return this.tasks[this.tasks.length - 1];
     }
     /**
-     * Add new comment to task.
+     * Add new comment to last task.
      * @return task
      * */
     @Override
     public Task addCommentToTask() {
-        Random random = new Random();
-        int length = this.tasks.length;
+        Task task = null;
         String comment = "";
 
-        int taskNumber = random.nextInt(length);
-
-        String nameOfTask = this.tasks[taskNumber].getName();
-        if (this.tasks[taskNumber].getComments().length == 0) {
+        String nameOfTask = this.tasks[this.tasks.length - 1].getName();
+        if (this.tasks[this.tasks.length - 1].getComments().length == 0) {
            comment = "comment1";
         } else {
-            comment = this.tasks[taskNumber].getComments()[
-                    this.tasks[taskNumber].getComments().length - 1].getDescription();
-            int commentIndex = length + 1;
+            comment = this.tasks[this.tasks.length - 1].getComments()[
+                    this.tasks[this.tasks.length - 1].getComments().length - 1].getDescription();
+            int commentIndex = this.tasks.length + 1;
             comment += commentIndex;
-
         }
 
-        for (int i = 0; i < length; ++i) {
-            Task task = this.tasks[i];
+        for (int i = 0; i < this.tasks.length; i++) {
+            task = this.tasks[i];
             if (task.getName().equals(nameOfTask)) {
                 task.addComment(new Comment(comment));
-                setTestTask(task);
-                return task;
+                this.setTestTask(task);
+                break;
             }
         }
-        return null;
+        return task;
     }
     /**
-     * Randomly choose task and change name and description.
+     * Edit last task and change name and description.
      * @return name of edited task
      * */
     @Override
     public Task editTaskByName() {
-        int length = this.tasks.length;
+        Task task = null;
 
-        Random random = new Random();
-        int taskNumber = random.nextInt(length);
+        String name = this.tasks[this.tasks.length - 1].getName();
+        String newName = String.format("%s%s", this.tasks[this.tasks.length - 1].getName(), " edited");
+        String newDescription = String.format("%s%s", this.tasks[this.tasks.length - 1].getDescription(), " edited");
 
-        String name = this.tasks[taskNumber].getName();
-        String newName = this.tasks[taskNumber].getName() + " edited";
-        String newDescription = this.tasks[taskNumber].getDescription() + " edited";
-
-        for (int i = 0; i < length; ++i) {
-            Task task = this.tasks[i];
+        for (int i = 0; i < this.tasks.length; ++i) {
+            task = this.tasks[i];
             if (task.getName().equals(name)) {
                 task.setName(newName);
                 task.setDescription(newDescription);
-                setTestTask(task);
-                return task;
+                this.setTestTask(task);
+                break;
             }
         }
-        return null;
+        return task;
     }
     /**
-     * Randomly removing task.
+     * Removing last task.
      * */
     @Override
-    public void removeTask() {
-        Random random = new Random();
-        Task[] temp = new Task[this.tasks.length - 1];
-        int length = temp.length;
-        int taskNumber = random.nextInt(length);
-        int j = 0;
+    public Task removeTask() {
+        Task removedTask = null;
 
-        String name = this.tasks[taskNumber].getName();
-        for (int i = 0; i < this.tasks.length - 1; ++i) {
-            Task task = this.tasks[i];
-            if (!task.getName().equals(name)) {
-                temp[j++] = task;
+        if (this.tasks.length < 1) {
+            System.out.println("No tasks found");
+        } else {
+            Task[] temp = new Task[this.tasks.length - 1];
+            int j = 0;
+
+            String name = this.tasks[this.tasks.length - 1].getName();
+            for (int i = 0; i < this.tasks.length - 1; ++i) {
+                Task task = this.tasks[i];
+                if (!task.getName().equals(name)) {
+                    temp[j++] = task;
+                } else {
+                    removedTask = task;
+                }
             }
+
+            this.tasks = temp;
         }
 
-        this.tasks = temp;
+        return removedTask;
     }
     /**
      * Takes last task.
@@ -139,19 +139,20 @@ public class StubInput implements ITaskManager {
         return this.tasks;
     }
     /**
-     * Get task by name.
+     * Get task by name, using ONLY FOR TESTS.
      * @param name - name of task
      * @return task with specified name
      * */
     @Override
-    public Task getTaskByName(String name) {
+    public Task getTaskByName(final String name) {
         for (Task task : this.tasks) {
             if (task.getName().equals(name)) {
-                setTestTask(task);
-                return task;
+                this.setTestTask(task);
+            } else {
+                return null;
             }
         }
-        return null;
+        return getTestTask();
     }
     /**
      * Getter for test task.
@@ -159,13 +160,21 @@ public class StubInput implements ITaskManager {
      * */
     @Override
     public Task getTestTask() {
-        return testTask;
+        return this.testTask;
     }
     /**
      * Setter for test task.
      * @param testTask - task for test control
      * */
-    public void setTestTask(Task testTask) {
+    public void setTestTask(final Task testTask) {
         this.testTask = testTask;
+    }
+    /**
+     * Cap.
+     * @return new instance of scanner
+     * */
+    @Override
+    public Scanner getScanner() {
+        return new Scanner(System.in);
     }
 }

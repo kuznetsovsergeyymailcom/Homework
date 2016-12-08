@@ -1,187 +1,181 @@
 package ru.skuznetsov;
 
+import ru.skuznetsov.intefraces.IAction;
+import ru.skuznetsov.intefraces.ITaskManager;
+
+import java.util.Arrays;
+
 /**
  * Tracker class created 4/12/16.
  * */
 public class Tracker {
     /**
-     * Initial length of storage.
+     * Count of operations.
      * */
-    private final int firstLength = 5;
+    private final int countOfOperations = 6;
     /**
-     * local storage.
+     * Array of operations.
      * */
-    private Task[] tasks = new Task[firstLength];
+    private IAction[] abstractActions = new IAction[countOfOperations];
     /**
-     * Position of index.
+     * Instance of task manager,.
      * */
-    private int position = 0;
-    /**
-     * Default constructor without args.
-     * */
-    public Tracker() {
-    }
+    private final ITaskManager taskManager;
     /**
      * Constructor with new task on param.
-     * @param task - new task
+     * @param taskManager - instance inplemented task manager
      * */
-    public void addTask(Task task) {
-        final int chisl = 2, znam = 3;
-        if (position == ((this.tasks.length * chisl) / znam)) {
-            Task[] temp = new Task[this.tasks.length * chisl];
-            System.arraycopy(this.tasks, 0, temp, 0, position);
-            temp[position++] = task;
-            this.tasks = temp;
-        } else {
-            this.tasks[position++] = task;
-        }
+    public Tracker(ITaskManager taskManager) {
+        super();
+        this.taskManager = taskManager;
+        this.initTaskCollection();
     }
     /**
-     * Method removes task crom storage by name.
-     * @param name - name of task
+     * Method init collection of actions.
      * */
-    public void removeTask(String name) {
-        Task[] temp = new Task[getAllTasks().length - 1];
-        int j = 0;
-        if (this.isTaskExists(name)) {
-            for (int i = 0; i < getAllTasks().length; ++i) {
-                Task task = this.tasks[i];
-                if (!task.getName().equals(name)) {
-                    temp[j++] = task;
-                }
-            }
-            this.position--;
-            this.tasks = temp;
-        } else {
-            throw new IllegalArgumentException("Unknown name of task");
-        }
+    private void initTaskCollection() {
+        final int index0 = 0, index1 = 1, index2 = 2, index3 = 3, index4 = 4, index5 = 5;
+        this.abstractActions[index0] = new AddTask();
+        this.abstractActions[index1] = new EditTask();
+        this.abstractActions[index2] = new RemoveTask();
+        this.abstractActions[index3] = new GetAllTasks();
+        this.abstractActions[index4] = new GetTaskByName();
+        this.abstractActions[index5] = new AddCommentToTask();
     }
     /**
-     * Get array of task objects.
-     * @return array task
+     * Cover class have action method with launching add task operation on instance of task manager.
      * */
-    public Task[] getAllTasks() {
-        Task[] tasks = new Task[position];
-        for (int i = 0; i < position; i++) {
-            tasks[i] = this.tasks[i];
+    public class AddTask implements IAction {
+
+        /**
+         * Action method with launching point of add task method on task manager instance.
+         * */
+        @Override
+        public void action() {
+            taskManager.addTask();
         }
-        return tasks;
+        /**
+         * Cap method.
+         * @param name - name of task
+         * */
+        @Override
+        public void action(String name) { }
+
     }
     /**
-     * Get task by range of id.
-     * @param from - start index
-     * @param to -last index
-     * @return array of tasks
+     * Cover class have action method with launching ADD task operation on instance of task manager.
      * */
-    public Task[] getTasksByRangeOfId(int from, int to) {
-        Task[] temp = new Task[this.countOfItemsInRangeOfId(from, to)];
-        int index = 0;
-        int start = from <= to ? from : to;
-        int finish = from >= to ? from : to;
+    public class EditTask implements IAction {
 
-        for (int i = 0; i < getAllTasks().length; ++i) {
-            Task task = this.tasks[i];
-            int id = Integer.valueOf(task.getId()).intValue();
-            if (start <= id && id <= finish) {
-                temp[index] = task;
-                ++index;
-            }
+        /**
+         * Action method with launching point of EDIT task method on task manager instance.
+         * */
+        @Override
+        public void action() {
+            taskManager.editTaskByName();
         }
+        /**
+         * Action method with launching point of EDIT task method on task manager instance.
+         * @param name - name of task
+         * */
+        @Override
+        public void action(String name) { }
 
-        return temp;
     }
     /**
-     * Get task by name.
-     * @param name - name of task
-     * @return task by name
+     * Cover class have action method with launching ADD task operation on instance of task manager.
      * */
-    public Task getTaskByName(String name) {
-        for (int i = 0; i < getAllTasks().length; ++i) {
-            Task task = this.tasks[i];
-            if (task.getName().equals(name)) {
-                return task;
-            }
+    public class RemoveTask implements IAction {
+        /**
+         * Action method with launching point of REMOVE task method on task manager instance.
+         * */
+        @Override
+        public void action() {
+            taskManager.removeTask();
         }
+        /**
+         * Cap method.
+         * @param name - name of task
+         * */
+        @Override
+        public void action(String name) { }
 
-        return null;
     }
     /**
-     * Edit task by name.
-     * @param name - name of task
-     * @param task - new task
+     * Cover class have action method with launching GET TASK BY NAME task operation on instance of task manager.
      * */
-    public void editTaskByName(String name, Task task) {
+    public class GetTaskByName implements IAction {
 
-        for (int i = 0; i < getAllTasks().length; ++i) {
-            Task tempTask = this.tasks[i];
-            if (tempTask.getName().equals(name)) {
-                tempTask.setName(task.getName());
-                tempTask.setDescription(task.getDescription());
-            }
+        /**
+         * Action method with launching point of GET TASK BY NAME task method on task manager instance.
+         * */
+        @Override
+        public void action() {
+            System.out.println(taskManager.getTaskByName());
         }
-    }
-    /**
-     * Add comment to task.
-     * @param nameOfTask - name of task
-     * @param comment - new comment
-     * */
-    public void addCommentToTask(String nameOfTask, Comment comment) {
-        if (this.isTaskExists(nameOfTask)) {
-
-            for (int i = 0; i < getAllTasks().length; ++i) {
-                Task task = this.tasks[i];
-                if (task.getName().equals(nameOfTask)) {
-                    task.addComment(comment);
-                }
-            }
-
-        } else {
-            throw new IllegalArgumentException("Unknown name of task");
-        }
-    }
-    /**
-     * Check is task exists by name.
-     * @param name - name of task
-     * @return true if task exists
-     * */
-    private boolean isTaskExists(String name) {
-        boolean exists = false;
-
-        for (int i = 0; i < getAllTasks().length; ++i) {
-            Task task = this.tasks[i];
-            if (task.getName().equals(name)) {
-                exists = true;
-            }
+        /**
+         * Action with name of task on param.
+         * @param name - name of task
+         * */
+        @Override
+        public void action(String name) {
+            taskManager.getTaskByName(name);
         }
 
-        return exists;
     }
     /**
-     * Count of items in range.
-     * @param from - start index
-     * @param to - last index
-     * @return count
+     * Cover class have action method with launching GET ALL task operation on instance of task manager.
      * */
-    private int countOfItemsInRangeOfId(int from, int to) {
-        int count = 0;
-        int start = from <= to ? from : to, largest = from >= to ? from : to;
+    public class GetAllTasks implements IAction {
 
-        for (int i = 0; i < getAllTasks().length; ++i) {
-            Task task = this.tasks[i];
-            int id = Integer.valueOf(task.getId()).intValue();
-            if (start <= id && id <= largest) {
-                ++count;
-            }
+        /**
+         * Action method with launching point of task method on task manager instance.
+         * */
+        @Override
+        public void action() {
+            System.out.println(Arrays.toString(taskManager.getAllTasks()));
         }
+        /**
+         * Action method with launching point of task method on task manager instance.
+         * @param name - name of task
+         * */
+        @Override
+        public void action(String name) { }
 
-        return count;
     }
     /**
-     * Getter for position.
-     * @return position in tasks array
+     * Cover class have action method with launching ADD COMMENT TO TASK task operation on instance of task manager.
      * */
-    public int getPosition() {
-        return this.position;
-    }
+    public class AddCommentToTask implements IAction {
 
+        /**
+         * Action method with launching point of task method on task manager instance.
+         * @return modified task
+         * */
+        @Override
+        public void action() {
+            taskManager.addCommentToTask();
+        }
+        /**
+         * Action method with launching point of task method on task manager instance.
+         * @return modified task
+         * */
+        @Override
+        public void action(String name) { }
+
+    }
+    /**
+     * Getter of actions.
+     * @return actions array
+     * */
+    public IAction[] getActions() {
+        return this.abstractActions;
+    }
+    /**
+     * Getter for task manager.
+     * @return instance implemented ITaskManager interface
+     * */
+    public ITaskManager getTaskManager() {
+        return this.taskManager;
+    }
 }

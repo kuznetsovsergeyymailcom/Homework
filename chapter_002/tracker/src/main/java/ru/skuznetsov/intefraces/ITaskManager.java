@@ -2,6 +2,8 @@ package ru.skuznetsov.intefraces;
 
 import ru.skuznetsov.Task;
 
+import java.util.Scanner;
+
 /**
  * Created by Sergey on 05.12.2016.
  */
@@ -23,8 +25,9 @@ public interface ITaskManager {
     Task editTaskByName();
     /**
      * Remove task.
+     * @return removed task
      * */
-    void removeTask();
+    Task removeTask();
     /**
      * Get task by name.
      * @return task
@@ -35,7 +38,7 @@ public interface ITaskManager {
      * @param name - name of task
      * @return task
      * */
-    Task getTaskByName(String name);
+    Task getTaskByName(final String name);
     /**
      * Get all task.
      * @return all tasks
@@ -47,4 +50,9 @@ public interface ITaskManager {
      * @return Task
      * */
     Task getTestTask();
+    /**
+     * Getter for scanner.
+     * @return scanner instance
+     * */
+    Scanner getScanner();
 }

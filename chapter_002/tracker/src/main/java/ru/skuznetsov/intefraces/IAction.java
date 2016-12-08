@@ -12,6 +12,6 @@ public interface IAction {
      * Method launch operation with name on args.
      * @param name - name of task
      * */
-    void action(String name);
+    void action(final String name);
 }
 

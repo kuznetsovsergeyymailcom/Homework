@@ -11,12 +11,14 @@ public class Comment {
      * Default constructor without args.
      * */
     public Comment() {
+        super();
     }
     /**
      * Constructor with arg description.
      * @param description - description of task
      * */
-    public Comment(String description) {
+    public Comment(final String description) {
+        super();
         this.description = description;
     }
 
@@ -31,7 +33,7 @@ public class Comment {
      * Setter of description.
      * @param description - descriptiokn of comment
      * */
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
     /**
@@ -40,7 +42,7 @@ public class Comment {
      * */
     @Override
     public String toString() {
-        return "Comment{description=\'" + this.description + '\'' + '}';
+        return String.format("Comment{description='%s'}", this.description);
     }
     /**
      * Equals method.
@@ -48,7 +50,7 @@ public class Comment {
      * @return true if task equals over task
      * */
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         } else if (o != null && this.getClass() == o.getClass()) {

@@ -2,8 +2,18 @@ package ru.skuznetsov;
 
 import java.util.Arrays;
 import java.util.Date;
+
+import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
+import ru.skuznetsov.input.ConsoleInput;
+import ru.skuznetsov.input.StubInput;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.arrayContainingInAnyOrder;
+
 /**
  * Tascker class created 04.12.16.
  * */
@@ -15,11 +25,12 @@ public class TrackerTest {
     @Test
     public void ifAddTaskCountOfTasksIncrease() {
         final int expectedCount = 3;
-        Tracker tracker = new Tracker();
-        tracker.addTask(new Task("task1", "some desc"));
-        tracker.addTask(new Task("task2", "some desc"));
-        tracker.addTask(new Task("task3", "some desc"));
-        Assert.assertEquals(expectedCount, tracker.getAllTasks().length);
+        Tracker tracker = new Tracker(new StubInput(new Task[]{
+                new Task("task1", "some desc"),
+                new Task("task2", "some desc"),
+                new Task("task3", "some desc")
+        }));
+        assertThat(expectedCount, is(tracker.getTaskManager().getAllTasks().length));
     }
     /**
      *  Remove task ans check count of result with expected.
@@ -27,88 +38,89 @@ public class TrackerTest {
     @Test
     public void ifRemoveTaskThanCountChanges() {
         final int expected = 2;
-        Tracker tracker = new Tracker();
-        tracker.addTask(new Task("task1", "some desc"));
-        tracker.addTask(new Task("task2", "some desc"));
-        tracker.addTask(new Task("task3", "some desc"));
-        tracker.removeTask("task2");
-        Assert.assertEquals(expected, tracker.getAllTasks().length);
+        Tracker tracker = new Tracker(new StubInput(new Task[]{
+                new Task("task1", "some desc"),
+                new Task("task2", "some desc"),
+                new Task("task3", "some desc")
+        }));
+
+        tracker.new RemoveTask().action();
+        assertThat(expected, is(tracker.getTaskManager().getAllTasks().length));
     }
     /**
-     * Remove not existed task, expect exception.
+     * Remove not existed task, expect count will be decreased.
      * */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void ifRemoveNotExistsTaskThanThrowsException() {
-        Tracker tracker = new Tracker();
-        tracker.addTask(new Task("task1", "some desc"));
-        tracker.removeTask("task5");
+        final int expected = 1;
+        Tracker tracker = new Tracker(new StubInput(new Task[]{
+                new Task("task1", "some desc")}));
+        tracker.new AddTask().action();
+        tracker.new RemoveTask().action();
+        assertThat(Arrays.asList(tracker.getTaskManager().getAllTasks()), Matchers.hasSize(expected));
     }
     /**
      * Add task and check result with expected.
      * */
     @Test
     public void ifAddTaskThenEqualsExpectedTasks() {
-        Tracker tracker = new Tracker();
-        tracker.addTask(new Task("task1", "some desc"));
-        Assert.assertArrayEquals(new Task[]{new Task("task1", "some desc")}, tracker.getAllTasks());
+        Tracker tracker = new Tracker(new StubInput(new Task[]{
+                new Task("task1", "some desc")}));
+        tracker.new AddTask().action();
+        assertThat(tracker.getTaskManager().getAllTasks(),
+                arrayContainingInAnyOrder(new Task[]{
+                        new Task("task1", "some desc"),
+                        new Task("task2", "desc2"), }));
     }
-    /**
-     * Get array of tasks by range of id.
-     * */
-    @Test
-    public void ifGetArrayByRangeOfIdCompareResult() {
-        Tracker tracker = new Tracker();
-        tracker.addTask(new Task("task1", "some desc"));
-        tracker.addTask(new Task("task2", "some desc"));
-        String rand1 = tracker.getTaskByName("task1").getId();
-        String rand2 = tracker.getTaskByName("task2").getId();
-        Task[] choosenTasks = tracker.getTasksByRangeOfId(Integer.valueOf(rand1).intValue(), Integer.valueOf(rand2).intValue());
-        Assert.assertArrayEquals(new Task[]{new Task("task1", "some desc"), new Task("task2", "some desc")}, choosenTasks);
-    }
+
     /**
      * Check coutn of comments after adding new comment.
      * */
     @Test
     public void thenAddCommentThanCountOfCommentsWillIncrease() {
         final int expected = 1;
-        Tracker tracker = new Tracker();
-        tracker.addTask(new Task("task1", "some desc"));
-        tracker.addCommentToTask("task1", new Comment("Comment of task1"));
-        Comment[] comments = tracker.getTaskByName("task1").getComments();
-        Assert.assertEquals(expected, comments.length);
+        Tracker tracker = new Tracker(new ConsoleInput("task1\ndesc1\ntask1\nComment of task1"));
+        tracker.new AddTask().action();
+        tracker.new AddCommentToTask().action();
+        Comment[] comments = tracker.getTaskManager().getTaskByName("task1").getComments();
+        assertThat(Arrays.asList(comments), Matchers.hasSize(expected));
     }
     /**
      * Add comment and compare result with expected.
      * */
     @Test
     public void thenAddCommentThanCompareExpectedResult() {
-        Tracker tracker = new Tracker();
-        tracker.addTask(new Task("task1", "some desc"));
-        tracker.addCommentToTask("task1", new Comment("Comment of task1"));
-        String id = tracker.getTaskByName("task1").getId();
-        Task task = tracker.getTaskByName("task1");
-        Assert.assertEquals(new Task(id, "task1", "some desc", new Comment("Comment of task1")), task);
+        Tracker tracker = new Tracker(new ConsoleInput("task1\nsome desc\ntask1\nComment of task1\ntask1"));
+        tracker.new AddTask().action();
+        tracker.new AddCommentToTask().action();
+        tracker.new GetTaskByName().action();
+        Task task = tracker.getTaskManager().getTestTask();
+
+        assertThat(new Task(task.getId(), "task1", "some desc",
+                new Comment("Comment of task1")), is(equalTo(task)));
     }
     /**
      * Add comment and check description of it.
      * */
     @Test
     public void ifAddCommentCheckAddedComment() {
-        Tracker tracker = new Tracker();
-        tracker.addTask(new Task("task1", "some desc"));
-        tracker.addCommentToTask("task1", new Comment("Comment of task1"));
-        Assert.assertEquals("Comment of task1", tracker.getTaskByName("task1").getComments()[0].getDescription());
+        Tracker tracker = new Tracker(new ConsoleInput("task1\nsome desc\ntask1\nComment of task1"));
+        tracker.new AddTask().action();
+        tracker.new AddCommentToTask().action();
+        assertThat(tracker.getTaskManager().getTaskByName("task1").getComments()[0].getDescription(),
+                        is(equalTo("Comment of task1")));
     }
     /**
      * Equal new comment with expected.
      * */
     @Test
     public void ifAddCommentCheckAddedCommentOnEquals() {
-        Tracker tracker = new Tracker();
-        tracker.addTask(new Task("task1", "some desc"));
-        String id = tracker.getTaskByName("task1").getId();
-        tracker.addCommentToTask("task1", new Comment("Comment of task1"));
-        Assert.assertEquals((new Task(id, "task1", "some desc", new Comment("Comment of task1"))).getComments()[0], tracker.getTaskByName("task1").getComments()[0]);
+        Tracker tracker = new Tracker(new ConsoleInput("task1\nsome desc\ntask1\nComment of task1"));
+        tracker.new AddTask().action();
+        String id = tracker.getTaskManager().getTaskByName("task1").getId();
+        tracker.new AddCommentToTask().action();
+        assertThat(tracker.getTaskManager().getTaskByName("task1").getComments()[0],
+                is(equalTo(new Comment("Comment of task1"))));
     }
     /**
      * Create task with empty constructor and compare description of it with expected description.
@@ -132,23 +144,24 @@ public class TrackerTest {
      * */
     @Test
     public void ifEditTaskByNameThenResultEqualsWithExpected() {
-        Tracker tracker = new Tracker();
-        tracker.addTask(new Task("task1", "some desc"));
-        String id = tracker.getTaskByName("task1").getId();
-        tracker.editTaskByName("task1", new Task("task123", "new description"));
-        Assert.assertEquals(new Task(id, "task123", "new description"), tracker.getAllTasks()[0]);
+        Tracker tracker = new Tracker(new ConsoleInput("task1\nsome desc\ntask1\ntask123\nnew description"));
+        tracker.new AddTask().action();
+        String id = tracker.getTaskManager().getTaskByName("task1").getId();
+        tracker.new EditTask().action();
+        assertThat(tracker.getTaskManager().getTaskByName("task123"),
+                is(equalTo(new Task(id, "task123", "new description"))));
     }
     /**
      * Add task to tracker, add comment and compare description of comment with expected.
      * */
     @Test
     public void ifAddTaskAndSetDescriptionCompareItWithExpected() {
-        Tracker tracker = new Tracker();
-        tracker.addTask(new Task("task1", "some desc"));
-        String id = tracker.getTaskByName("task1").getId();
-        tracker.addCommentToTask("task1", new Comment("description"));
-        tracker.getAllTasks()[0].getComments()[0].setDescription("new description");
-        Assert.assertEquals("new description", tracker.getAllTasks()[0].getComments()[0].getDescription());
+        Tracker tracker = new Tracker(new ConsoleInput("task1\nsome desc\ntask1\ndescription"));
+        tracker.new AddTask().action();
+        tracker.new AddCommentToTask().action();
+        tracker.getTaskManager().getAllTasks()[0].getComments()[0].setDescription("new description");
+        assertThat("new description",
+                is(equalTo(tracker.getTaskManager().getAllTasks()[0].getComments()[0].getDescription())));
     }
     /**
      * Create comment with empty constructor and equal description of it with expected descriptio.

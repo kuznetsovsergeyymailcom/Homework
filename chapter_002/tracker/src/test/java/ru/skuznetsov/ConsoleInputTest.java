@@ -1,8 +1,15 @@
 package ru.skuznetsov;
 
-import org.junit.Assert;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import ru.skuznetsov.input.ConsoleInput;
+
+import java.util.Arrays;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.arrayContaining;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 
 /**
  * Created by Sergey on 06.12.2016.
@@ -16,7 +23,7 @@ public class ConsoleInputTest {
         final int expectedCount = 1;
         ConsoleInput input = new ConsoleInput("task1\ndescription1");
         input.addTask();
-        Assert.assertEquals(expectedCount, input.getAllTasks().length);
+        assertThat(expectedCount, equalTo(input.getAllTasks().length));
     }
     /**
      *  Remove task ans check count of result with expected.
@@ -28,7 +35,7 @@ public class ConsoleInputTest {
         tracker.addTask();
         tracker.addTask();
         tracker.removeTask();
-        Assert.assertEquals(expected, tracker.getAllTasks().length);
+        assertThat(expected, equalTo(tracker.getAllTasks().length));
     }
 
     /**
@@ -40,8 +47,8 @@ public class ConsoleInputTest {
 
         tracker.addTask();
         tracker.addTask();
-        Assert.assertArrayEquals(new Task[]{new Task("task1", "desc1"),
-                        new Task("task2", "desc2")}, tracker.getAllTasks());
+        assertThat(tracker.getAllTasks(), arrayContaining(new Task[]{new Task("task1", "desc1"),
+                new Task("task2", "desc2")}));
     }
 
     /**
@@ -55,7 +62,7 @@ public class ConsoleInputTest {
         tracker.addTask();
         Task task = tracker.addCommentToTask();
         Comment[] comments = task.getComments();
-        Assert.assertEquals(expected, comments.length);
+        assertThat(expected, is(equalTo(comments.length)));
     }
     /**
      * Add comment and compare result with expected.
@@ -66,8 +73,8 @@ public class ConsoleInputTest {
         tracker.addTask();
         Task task = tracker.addCommentToTask();
         String id = task.getId();
-        Assert.assertEquals(new Task(id, "task1", "desc1", new Comment("comment of task1")),
-                tracker.getTaskByName("task1"));
+        assertThat(new Task(id, "task1", "desc1", new Comment("comment of task1")),
+                is(tracker.getTaskByName("task1")));
     }
     /**
      * Add comment and check description of it.
@@ -77,8 +84,7 @@ public class ConsoleInputTest {
         ConsoleInput tracker = new ConsoleInput("task1\ndesc1\ntask1\ncomment of task1");
         tracker.addTask();
         tracker.addCommentToTask();
-
-        Assert.assertEquals("comment of task1", tracker.getTaskByName("task1").getComments()[0].getDescription());
+        assertThat("comment of task1", is(equalTo(tracker.getTaskByName("task1").getComments()[0].getDescription())));
     }
     /**
      * Equal new comment with expected.
@@ -89,9 +95,8 @@ public class ConsoleInputTest {
         tracker.addTask();
         String id = tracker.getTaskByName("task1").getId();
         tracker.addCommentToTask();
-        Assert.assertEquals((new Task(id, "task1", "desc1",
-                new Comment("comment of task1"))).getComments()[0],
-                tracker.getTaskByName("task1").getComments()[0]);
+        assertThat(tracker.getTaskByName("task1").getComments()[0],
+                is(equalTo(new Task(id, "task1", "desc1", new Comment("comment of task1")).getComments()[0])));
     }
 
     /**
@@ -103,7 +108,7 @@ public class ConsoleInputTest {
         tracker.addTask();
         String id = tracker.getTaskByName("task1").getId();
         tracker.editTaskByName();
-        Assert.assertEquals(new Task(id, "task999", "new description"), tracker.getAllTasks()[0]);
+        assertThat(tracker.getAllTasks()[0], is(equalTo(new Task(id, "task999", "new description"))));
     }
     /**
      * Add task to tracker, add comment and compare description of comment with expected.
@@ -112,32 +117,32 @@ public class ConsoleInputTest {
     public void ifAddTaskAndSetDescriptionCompareItWithExpected() {
         ConsoleInput tracker = new ConsoleInput("task1\ndesc1\ntask1\ncomment info");
         tracker.addTask();
-        String id = tracker.getTaskByName("task1").getId();
         tracker.addCommentToTask();
         tracker.getAllTasks()[0].getComments()[0].setDescription("new comment");
-        Assert.assertEquals("new comment", tracker.getAllTasks()[0].getComments()[0].getDescription());
+        assertThat(tracker.getAllTasks()[0].getComments()[0].getDescription(), is(equalTo("new comment")));
     }
     /**
      * Add extra comment to task, check total counts of comments.
      * */
     @Test
     public void ifAddCommentToTaskWhereWasCommentThenCompareExpectedWithFactedCountOfComments() {
+        final int expected = 2;
         ConsoleInput tracker = new ConsoleInput("task1\ndesc1\ntask1\ncomment info\ntask1\ncomment info");
         tracker.addTask();
         tracker.addCommentToTask();
         tracker.addCommentToTask();
-        Assert.assertEquals(2, tracker.getAllTasks()[0].getComments().length);
+        assertThat(Arrays.asList(tracker.getAllTasks()[0].getComments()), Matchers.hasSize(expected));
     }
     /**
      * Add extra comment, compare description of new comment with expected.
      * */
     @Test
     public void ifAddCommentToTaskWhereWasCommentThenCompareExpectedWithFactedComment() {
-        ConsoleInput tracker = new ConsoleInput("task1\ndesc1\ntask1\ncomment info\ntask1\ncomment info");
+        ConsoleInput tracker = new ConsoleInput("task1\ndesc1\ntask1\ncomment info\ntask1\ncomment info1");
         tracker.addTask();
         tracker.addCommentToTask();
         tracker.addCommentToTask();
-        Assert.assertEquals("comment info", tracker.getAllTasks()[0].getComments()[0].getDescription());
-        Assert.assertEquals("comment info", tracker.getAllTasks()[0].getComments()[1].getDescription());
+        assertThat(tracker.getAllTasks()[0].getComments()[0].getDescription(), is(equalTo("comment info")));
+        assertThat(tracker.getAllTasks()[0].getComments()[1].getDescription(), is(equalTo("comment info1")));
     }
 }

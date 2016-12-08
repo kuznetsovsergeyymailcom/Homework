@@ -1,7 +1,6 @@
 package ru.skuznetsov;
 
 import ru.skuznetsov.input.ConsoleInput;
-//import ru.skuznetsov.input.StubInput;
 
 import java.io.ByteArrayInputStream;
 import java.util.Scanner;
@@ -19,58 +18,43 @@ public class StartUI {
      * */
     private static Task[] tasks = null;
     /**
-     * Number of operation.
-     * */
-    private static String operationNumber = "";
-    /**
      * Tracker instance with storage.
      * */
-    private static TrackerPolimorth trackerPolimorth = null;
+    private static Tracker tracker = null;
     /**
      * Scanner.
      * */
-    private static Scanner scanner = null;
+    private static Scanner scanner = new Scanner(System.in);
+
     /**
      * Default constructor with operation number  as string.
      * @param operationNumber - operation from 1 - 7
      * */
-    public StartUI(String operationNumber) {
+    public StartUI(final String operationNumber) {
+        super();
         System.setIn(new ByteArrayInputStream(operationNumber.getBytes()));
         scanner = new Scanner(System.in);
-        this.operationNumber = operationNumber;
     }
     /**
-     * Main method without args.
+     * Main method.
+     * При тестировании StartUI, в аргумент класса ConsoleInput вставить args[0].
      * @param args - arguments
      * */
-    public static void main(String[] args) {
-        // Тестирование StartUI настроено на эмюляцию пользовательского ввода,
-        // тестирование StubInput проводится отдельно.
-//        trackerPolimorth = new TrackerPolimorth(
-//                new StubInput(
-//                        new Task[]{new Task("task1", "desc1"),
-//                                new Task("task2", "desc2"),
-//                                new Task("task3", "desc3")}));
-        // Pass string in  of ConsoleInput instance - using emulation of user input.
-        // ConsoleInput without args - standart user input in console.
-        trackerPolimorth = new TrackerPolimorth(new ConsoleInput(args[0]));
+    public static void main(final String[] args) {
+        if (args.length == 0) {
+            tracker = new Tracker(new ConsoleInput());
+        } else {
+            tracker = new Tracker(new ConsoleInput(args[0]));
+        }
 
-        final int exitOperation = 7, add = 1, addComment = 6;
+        final int exitOperation = 7;
         int userInput = 0;
         do {
             userInput = mainMenu();
-            try {
-                if (userInput >= add && userInput <= addComment) {
-                    trackerPolimorth.getActions()[Integer.valueOf(userInput) - 1].action();
-                    testTask = trackerPolimorth.getTaskManager().getTestTask();
-                } else {
-                    continue;
+                if (userInput > 0 && userInput < exitOperation) {
+                    tracker.getActions()[Integer.valueOf(userInput) - 1].action();
+                    testTask = tracker.getTaskManager().getTestTask();
                 }
-            } catch (NumberFormatException e) {
-                continue;
-            } catch (Exception e) {
-                continue;
-            }
         } while (userInput != exitOperation);
     }
     /**
@@ -78,7 +62,6 @@ public class StartUI {
      * @return user input - choosen operation
      * */
     public static int mainMenu() {
-        String userInput = "";
         final int firstNumberOfOperation = 1, numberOfExitOperation = 7;
         int userOperationNumber = 0;
         System.out.println("\n Choose action: \n");
@@ -90,26 +73,28 @@ public class StartUI {
         System.out.println("6. Add comment to task");
         System.out.println("7. Exit");
         System.out.print("\nYour input: ");
-        userInput = scanner.next();
+        String userInput = scanner.nextLine();
 
-        try {
+            try {
+                 userOperationNumber = Integer.valueOf(userInput);
 
-            userOperationNumber = Integer.valueOf(userInput);
-            if (userOperationNumber < firstNumberOfOperation || userOperationNumber > numberOfExitOperation) {
-                mainMenu();
+                if (userOperationNumber < firstNumberOfOperation || userOperationNumber > numberOfExitOperation) {
+                    userOperationNumber = -1;
+                }
+            }  catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("Enter number of operation from 1 to 7");
+                userOperationNumber = -1;
             }
-        } catch (NumberFormatException e) {
-            System.out.println("Enter number of operation from 1 to 7");
-            mainMenu();
-        }
+
         return userOperationNumber;
     }
     /**
      * Getter of task manager.
      * @return instance of task manager
      * */
-    public static TrackerPolimorth getTrackerPolimorth() {
-        return trackerPolimorth;
+    public static Tracker getTracker() {
+        return tracker;
     }
     /**
      * Getter of created or modified task.
@@ -126,5 +111,4 @@ public class StartUI {
     public static Task[] getTasks() {
         return tasks;
     }
-
 }

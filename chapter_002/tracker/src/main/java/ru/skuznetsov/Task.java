@@ -36,13 +36,15 @@ public class Task {
      * Default constructor without args.
      * */
     public Task() {
+        super();
     }
     /**
      * Constructor with args.
      * @param name - name of task
      * @param description - description of task
      * */
-    public Task(String name, String description) {
+    public Task(final String name, final String description) {
+        super();
         final int bound = 100;
         this.name = name;
         this.description = description;
@@ -55,7 +57,8 @@ public class Task {
      * @param name - name of task
      * @param description - description of task
      * */
-    public Task(String id, String name, String description) {
+    public Task(final String id, final String name, final String description) {
+        super();
         this.name = name;
         this.description = description;
         this.id = id;
@@ -68,7 +71,8 @@ public class Task {
      * @param description - description of task
      * @param comment - new comment of task
      * */
-    public Task(String id, String name, String description, Comment comment) {
+    public Task(final String id, final String name, final String description, final Comment comment) {
+        super();
         this.name = name;
         this.description = description;
         this.id = id;
@@ -86,7 +90,7 @@ public class Task {
      * Setter of id.
      * @param id - id of task
      * */
-    public void setId(String id) {
+    public void setId(final String id) {
         this.id = id;
     }
     /**
@@ -100,7 +104,7 @@ public class Task {
      * Setter of name.
      * @param name - name of task
      * */
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
     /**
@@ -114,7 +118,7 @@ public class Task {
      * Setter of description.
      * @param description - description of task
      * */
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
     /**
@@ -128,7 +132,7 @@ public class Task {
      * Add comment to storage.
      * @param comment - new comment
      * */
-    public void addComment(Comment comment) {
+    public void addComment(final Comment comment) {
         Comment[] temp = new Comment[this.comments.length + 1];
         System.arraycopy(this.comments, 0, temp, 0, this.comments.length);
         temp[this.comments.length] = comment;
@@ -152,7 +156,7 @@ public class Task {
      * Made for testing.
      * @param newDate - new date of creation
      * */
-    public void changeDateOfCreation(long newDate) {
+    public void changeDateOfCreation(final long newDate) {
         this.dateOfCreation = newDate;
     }
     /**
@@ -161,7 +165,8 @@ public class Task {
      * */
     @Override
     public String toString() {
-        return "Task{id=\'" + this.id + '\'' + ", name=\'" + this.name + '\'' + ", description=\'" + this.description + '\'' + ", dateOfCreation=" + new Date(this.dateOfCreation) + ", comments=" + Arrays.toString(this.comments) + '}';
+        return String.format("Task{id='%s', name='%s', description='%s', dateOfCreation=%s, comments=%s}",
+                this.id, this.name, this.description, new Date(this.dateOfCreation), Arrays.toString(this.comments));
     }
     /**
      * Task equals over task.
@@ -169,7 +174,7 @@ public class Task {
      * @return true if tsaks equals
      * */
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         } else if (o != null && this.getClass() == o.getClass()) {
